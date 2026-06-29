@@ -103,3 +103,9 @@ class TestComputeLambdas:
         visitor = _make_team("ARG", 1.0, 1.0, 2000.0, host=False)
         lam_host, lam_visitor = compute_lambdas(host, visitor, ["USA"], False, None, DEFAULT_CONFIG)
         assert lam_host > lam_visitor
+
+    def test_both_host_nations_treated_as_neutral(self):
+        usa = _make_team("USA", 1.0, 1.0, 2000.0, host=True)
+        mex = _make_team("MEX", 1.0, 1.0, 2000.0, host=True)
+        lam_a, lam_b = compute_lambdas(usa, mex, ["USA", "MEX", "CAN"], False, None, DEFAULT_CONFIG)
+        assert lam_a == pytest.approx(lam_b, rel=1e-6)
