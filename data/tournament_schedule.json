@@ -159,27 +159,27 @@
       ]
     },
     {
-      "stage_name": "Round of 32",
-      "type": "knockout",
-      "matches": [
-        {"match_id": "R32_1",  "home": "TBD_1A", "away": "TBD_2B", "date": "2026-07-04", "neutral_venue": true, "depends_on": ["Group A_winner", "Group B_runner_up"]},
-        {"match_id": "R32_2",  "home": "TBD_1B", "away": "TBD_2A", "date": "2026-07-04", "neutral_venue": true, "depends_on": ["Group B_winner", "Group A_runner_up"]},
-        {"match_id": "R32_3",  "home": "TBD_1C", "away": "TBD_2D", "date": "2026-07-05", "neutral_venue": true, "depends_on": ["Group C_winner", "Group D_runner_up"]},
-        {"match_id": "R32_4",  "home": "TBD_1D", "away": "TBD_2C", "date": "2026-07-05", "neutral_venue": true, "depends_on": ["Group D_winner", "Group C_runner_up"]},
-        {"match_id": "R32_5",  "home": "TBD_1E", "away": "TBD_2F", "date": "2026-07-06", "neutral_venue": true, "depends_on": ["Group E_winner", "Group F_runner_up"]},
-        {"match_id": "R32_6",  "home": "TBD_1F", "away": "TBD_2E", "date": "2026-07-06", "neutral_venue": true, "depends_on": ["Group F_winner", "Group E_runner_up"]},
-        {"match_id": "R32_7",  "home": "TBD_1G", "away": "TBD_2H", "date": "2026-07-07", "neutral_venue": true, "depends_on": ["Group G_winner", "Group H_runner_up"]},
-        {"match_id": "R32_8",  "home": "TBD_1H", "away": "TBD_2G", "date": "2026-07-07", "neutral_venue": true, "depends_on": ["Group H_winner", "Group G_runner_up"]},
-        {"match_id": "R32_9",  "home": "TBD_1I", "away": "TBD_2J", "date": "2026-07-08", "neutral_venue": true, "depends_on": ["Group I_winner", "Group J_runner_up"]},
-        {"match_id": "R32_10", "home": "TBD_1J", "away": "TBD_2I", "date": "2026-07-08", "neutral_venue": true, "depends_on": ["Group J_winner", "Group I_runner_up"]},
-        {"match_id": "R32_11", "home": "TBD_1K", "away": "TBD_2L", "date": "2026-07-09", "neutral_venue": true, "depends_on": ["Group K_winner", "Group L_runner_up"]},
-        {"match_id": "R32_12", "home": "TBD_1L", "away": "TBD_2K", "date": "2026-07-09", "neutral_venue": true, "depends_on": ["Group L_winner", "Group K_runner_up"]},
-        {"match_id": "R32_13", "home": "TBD_3rd_1", "away": "TBD_3rd_2", "date": "2026-07-10", "neutral_venue": true, "depends_on": ["Best_third_1", "Best_third_2"]},
-        {"match_id": "R32_14", "home": "TBD_3rd_3", "away": "TBD_3rd_4", "date": "2026-07-10", "neutral_venue": true, "depends_on": ["Best_third_3", "Best_third_4"]},
-        {"match_id": "R32_15", "home": "TBD_3rd_5", "away": "TBD_3rd_6", "date": "2026-07-11", "neutral_venue": true, "depends_on": ["Best_third_5", "Best_third_6"]},
-        {"match_id": "R32_16", "home": "TBD_3rd_7", "away": "TBD_3rd_8", "date": "2026-07-11", "neutral_venue": true, "depends_on": ["Best_third_7", "Best_third_8"]}
-      ]
-    },
+  "stage_name": "Round of 32",
+  "type": "knockout",
+  "matches": [
+    {"match_id": "R32_1",  "home": "CAN", "away": "RSA", "date": "2026-06-28", "neutral_venue": true, "status": "completed", "final_score": {"home": 1, "away": 0}},
+    {"match_id": "R32_2",  "home": "BRA", "away": "JPN", "date": "2026-06-29", "neutral_venue": true},
+    {"match_id": "R32_3",  "home": "GER", "away": "PRY", "date": "2026-06-29", "neutral_venue": true},
+    {"match_id": "R32_4",  "home": "NED", "away": "MAR", "date": "2026-06-29", "neutral_venue": true},
+    {"match_id": "R32_5",  "home": "CIV", "away": "NOR", "date": "2026-06-30", "neutral_venue": true},
+    {"match_id": "R32_6",  "home": "FRA", "away": "SWE", "date": "2026-06-30", "neutral_venue": true},
+    {"match_id": "R32_7",  "home": "MEX", "away": "ECU", "date": "2026-06-30", "neutral_venue": true},
+    {"match_id": "R32_8",  "home": "ENG", "away": "COD", "date": "2026-07-01", "neutral_venue": true},
+    {"match_id": "R32_9",  "home": "BEL", "away": "SEN", "date": "2026-07-01", "neutral_venue": true},
+    {"match_id": "R32_10", "home": "USA", "away": "BIH", "date": "2026-07-01", "neutral_venue": true},
+    {"match_id": "R32_11", "home": "ESP", "away": "AUT", "date": "2026-07-02", "neutral_venue": true},
+    {"match_id": "R32_12", "home": "POR", "away": "CRO", "date": "2026-07-02", "neutral_venue": true},
+    {"match_id": "R32_13", "home": "SUI", "away": "ALG", "date": "2026-07-02", "neutral_venue": true},
+    {"match_id": "R32_14", "home": "COL", "away": "GHA", "date": "2026-07-03", "neutral_venue": true},
+    {"match_id": "R32_15", "home": "AUS", "away": "EGY", "date": "2026-07-03", "neutral_venue": true},
+    {"match_id": "R32_16", "home": "ARG", "away": "CPV", "date": "2026-07-03", "neutral_venue": true}
+  ]
+},
     {
       "stage_name": "Round of 16",
       "type": "knockout",

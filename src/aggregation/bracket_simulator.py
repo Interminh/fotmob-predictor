@@ -4,9 +4,114 @@ import numpy as np
 
 from src.aggregation.group_standings import compute_group_standings
 from src.engine.lambda_calculator import compute_lambdas
-from src.engine.knockout_resolver import resolve_knockout
+from src.engine.knockout_resolver import _clamp
 from src.models.team import Team
-from src.models.match import Stage
+from src.models.match import Match, Stage
+
+
+def _parse_depends_on(ref: str) -> tuple[str, str]:
+    """Parse 'R32_1_winner' → ('R32_1', 'winner')."""
+    parts = ref.rsplit("_", 1)
+    return parts[0], parts[1]  # (match_id, role)
+
+
+def _resolve_slot(ref: str, match_results: dict) -> Optional[str]:
+    """Return team code for a depends_on ref, or None if not yet resolved."""
+    mid, role = _parse_depends_on(ref)
+    result = match_results.get(mid)
+    if result is None:
+        return None
+    return result.get(role)
+
+
+def simulate_from_knockout(
+    teams: dict[str, Team],
+    h2h: dict[str, dict],
+    knockout_stages: list[Stage],
+    host_nations: list[str],
+    config: dict,
+    n_trials: int = 100_000,
+    seed: Optional[int] = None,
+) -> dict:
+    """
+    Simulate bracket from a set of knockout stages (e.g. starting at Round of 32).
+
+    Completed matches (status='completed' with final_score) use their known result.
+    TBD slots are resolved via depends_on references.
+
+    Returns:
+        {"team_code": {"round_of_32": p, "round_of_16": p, ...}}
+    """
+    from src.io.loader import get_h2h_data
+
+    rng = np.random.default_rng(seed)
+
+    stage_keys = [
+        s.stage_name.lower().replace(" ", "_").replace("-", "_").replace(" ", "_")
+        for s in knockout_stages
+    ]
+
+    counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+
+    # Pre-index all matches by match_id for O(1) lookup
+    all_matches: dict[str, tuple[Match, str]] = {}  # match_id → (match, stage_key)
+    for stage, sk in zip(knockout_stages, stage_keys):
+        for m in stage.matches:
+            all_matches[m.match_id] = (m, sk)
+
+    for _ in range(n_trials):
+        match_results: dict[str, dict[str, str]] = {}
+
+        # Seed completed matches — these are fixed every trial
+        for mid, (m, _) in all_matches.items():
+            if m.status == "completed" and m.final_score is not None:
+                fs = m.final_score
+                if fs["home"] > fs["away"]:
+                    match_results[mid] = {"winner": m.home, "loser": m.away}
+                elif fs["away"] > fs["home"]:
+                    match_results[mid] = {"winner": m.away, "loser": m.home}
+                # Draws at 90min shouldn't appear in completed knockouts, but handle anyway
+                else:
+                    match_results[mid] = {"winner": m.home, "loser": m.away}
+
+        # Simulate each stage in order
+        for stage, stage_key in zip(knockout_stages, stage_keys):
+            for m in stage.matches:
+                if m.match_id in match_results:
+                    # Already resolved (completed match)
+                    winner = match_results[m.match_id]["winner"]
+                    counts[winner][stage_key] += 1
+                    continue
+
+                # Resolve home/away slots
+                home_code = m.home
+                away_code = m.away
+
+                if m.depends_on and len(m.depends_on) >= 2:
+                    home_code = _resolve_slot(m.depends_on[0], match_results) or home_code
+                    away_code = _resolve_slot(m.depends_on[1], match_results) or away_code
+
+                if home_code not in teams or away_code not in teams:
+                    continue  # unresolvable slot — skip
+
+                ta = teams[home_code]
+                tb = teams[away_code]
+                h2h_d = get_h2h_data(home_code, away_code, h2h)
+
+                winner, loser = _simulate_one_match(
+                    ta, tb, host_nations, m.neutral_venue, h2h_d, config, True, rng
+                )
+                match_results[m.match_id] = {"winner": winner, "loser": loser}
+                counts[winner][stage_key] += 1
+
+    # Normalise
+    result: dict[str, dict[str, float]] = {}
+    for code in teams:
+        if counts[code]:
+            result[code] = {k: round(v / n_trials, 5) for k, v in counts[code].items()}
+        else:
+            result[code] = {}
+    return result
 
 
 def _simulate_one_match(

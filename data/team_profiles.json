@@ -682,6 +682,96 @@
       "attack_strength": 0.81,
       "defense_strength": 1.04,
       "is_host_nation": false
+    },
+    "NOR": {
+      "name": "Norway",
+      "confederation": "UEFA",
+      "fifa_ranking": 9,
+      "elo_rating": 1918,
+      "recent_form": {
+        "goals_scored_last_10": 16,
+        "goals_conceded_last_10": 8,
+        "matches_played": 10
+      },
+      "attack_strength": 1.19,
+      "defense_strength": 0.74,
+      "is_host_nation": false,
+      "data_quality": "low"
+    },
+    "PRY": {
+      "name": "Paraguay",
+      "confederation": "CONMEBOL",
+      "fifa_ranking": 24,
+      "elo_rating": 1815,
+      "recent_form": {
+        "goals_scored_last_10": 14,
+        "goals_conceded_last_10": 11,
+        "matches_played": 10
+      },
+      "attack_strength": 1.04,
+      "defense_strength": 0.89,
+      "is_host_nation": false,
+      "data_quality": "low"
+    },
+    "SWE": {
+      "name": "Sweden",
+      "confederation": "UEFA",
+      "fifa_ranking": 36,
+      "elo_rating": 1742,
+      "recent_form": {
+        "goals_scored_last_10": 13,
+        "goals_conceded_last_10": 11,
+        "matches_played": 10
+      },
+      "attack_strength": 0.96,
+      "defense_strength": 0.89,
+      "is_host_nation": false,
+      "data_quality": "low"
+    },
+    "COD": {
+      "name": "DR Congo",
+      "confederation": "CAF",
+      "fifa_ranking": 43,
+      "elo_rating": 1712,
+      "recent_form": {
+        "goals_scored_last_10": 13,
+        "goals_conceded_last_10": 12,
+        "matches_played": 10
+      },
+      "attack_strength": 0.96,
+      "defense_strength": 0.96,
+      "is_host_nation": false,
+      "data_quality": "low"
+    },
+    "BIH": {
+      "name": "Bosnia and Herzegovina",
+      "confederation": "UEFA",
+      "fifa_ranking": 58,
+      "elo_rating": 1622,
+      "recent_form": {
+        "goals_scored_last_10": 11,
+        "goals_conceded_last_10": 13,
+        "matches_played": 10
+      },
+      "attack_strength": 0.81,
+      "defense_strength": 1.04,
+      "is_host_nation": false,
+      "data_quality": "low"
+    },
+    "CPV": {
+      "name": "Cape Verde",
+      "confederation": "CAF",
+      "fifa_ranking": 59,
+      "elo_rating": 1622,
+      "recent_form": {
+        "goals_scored_last_10": 11,
+        "goals_conceded_last_10": 13,
+        "matches_played": 10
+      },
+      "attack_strength": 0.81,
+      "defense_strength": 1.04,
+      "is_host_nation": false,
+      "data_quality": "low"
     }
   },
   "head_to_head": {

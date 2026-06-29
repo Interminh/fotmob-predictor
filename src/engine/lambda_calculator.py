@@ -60,8 +60,10 @@ def compute_lambdas(
         h2h_matches = h2h_data.get("matches_considered", 0)
     h2h_mod_a, h2h_mod_b = compute_h2h_modifier(h2h_avg_diff, h2h_matches, h2h_weight, h2h_cap)
 
-    home_adv_a = compute_home_advantage(team_a.code, host_nations, neutral_venue, home_adv_factor)
-    home_adv_b = compute_home_advantage(team_b.code, host_nations, neutral_venue, home_adv_factor)
+    both_hosts = team_a.code in host_nations and team_b.code in host_nations
+    effective_neutral = neutral_venue or both_hosts
+    home_adv_a = compute_home_advantage(team_a.code, host_nations, effective_neutral, home_adv_factor)
+    home_adv_b = compute_home_advantage(team_b.code, host_nations, effective_neutral, home_adv_factor)
 
     lambda_a = mu * team_a.attack_strength * team_b.defense_strength * rating_mod_a * h2h_mod_a * home_adv_a
     lambda_b = mu * team_b.attack_strength * team_a.defense_strength * rating_mod_b * h2h_mod_b * home_adv_b
