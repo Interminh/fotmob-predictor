@@ -1,0 +1,46 @@
+def _sign(x: int) -> int:
+    if x > 0:
+        return 1
+    if x < 0:
+        return -1
+    return 0
+
+
+def _parse_score(score_str: str) -> tuple[int, int]:
+    h, a = score_str.split("-")
+    return int(h), int(a)
+
+
+def points_awarded(p_h: int, p_a: int, a_h: int, a_a: int, scoring_rules: dict) -> float:
+    if p_h == a_h and p_a == a_a:
+        return float(scoring_rules["exact_score_points"])
+    if (p_h - p_a) == (a_h - a_a):
+        return float(scoring_rules["correct_goal_difference_points"])
+    if _sign(p_h - p_a) == _sign(a_h - a_a):
+        return float(scoring_rules["correct_outcome_points"])
+    return float(scoring_rules["wrong_outcome_points"])
+
+
+def optimize_prediction(
+    score_matrix: dict[str, float],
+    scoring_rules: dict,
+    cap_goals: int = 6,
+) -> dict:
+    candidates = [(h, a) for h in range(cap_goals + 1) for a in range(cap_goals + 1)]
+    ev_table: dict[str, float] = {}
+
+    for p_h, p_a in candidates:
+        ev = 0.0
+        for score_str, prob in score_matrix.items():
+            if score_str == "other":
+                continue
+            a_h, a_a = _parse_score(score_str)
+            ev += prob * points_awarded(p_h, p_a, a_h, a_a, scoring_rules)
+        ev_table[f"{p_h}-{p_a}"] = ev
+
+    best = max(ev_table, key=lambda k: ev_table[k])
+    return {
+        "optimal_score": best,
+        "expected_points": round(ev_table[best], 4),
+        "ev_table": {k: round(v, 4) for k, v in ev_table.items()},
+    }

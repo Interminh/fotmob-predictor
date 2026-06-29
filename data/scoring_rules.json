@@ -1,0 +1,7 @@
+{
+  "exact_score_points": 3,
+  "correct_goal_difference_points": 2,
+  "correct_outcome_points": 1,
+  "wrong_outcome_points": 0,
+  "score_reference_for_knockout": "90min"
+}

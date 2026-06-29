@@ -1,0 +1,333 @@
+{
+  "config": {
+    "league_avg_goals": 1.35,
+    "rating_sensitivity_gamma": 0.30,
+    "h2h_weight": 0.08,
+    "h2h_normalization_cap": 3.0,
+    "home_advantage_factor": 1.08,
+    "lambda_min": 0.15,
+    "lambda_max": 5.0,
+    "penalty_skill_factor": 0.10,
+    "extra_time_minutes_fraction": 0.3333
+  },
+  "teams": {
+    "ARG": {
+      "name": "Argentina", "confederation": "CONMEBOL",
+      "fifa_ranking": 1, "elo_rating": 2090,
+      "recent_form": {"goals_scored_last_10": 21, "goals_conceded_last_10": 5, "matches_played": 10},
+      "attack_strength": 1.56, "defense_strength": 0.58, "is_host_nation": false
+    },
+    "FRA": {
+      "name": "France", "confederation": "UEFA",
+      "fifa_ranking": 2, "elo_rating": 2050,
+      "recent_form": {"goals_scored_last_10": 19, "goals_conceded_last_10": 7, "matches_played": 10},
+      "attack_strength": 1.41, "defense_strength": 0.67, "is_host_nation": false
+    },
+    "ENG": {
+      "name": "England", "confederation": "UEFA",
+      "fifa_ranking": 4, "elo_rating": 2000,
+      "recent_form": {"goals_scored_last_10": 17, "goals_conceded_last_10": 8, "matches_played": 10},
+      "attack_strength": 1.26, "defense_strength": 0.74, "is_host_nation": false
+    },
+    "BRA": {
+      "name": "Brazil", "confederation": "CONMEBOL",
+      "fifa_ranking": 5, "elo_rating": 2010,
+      "recent_form": {"goals_scored_last_10": 18, "goals_conceded_last_10": 7, "matches_played": 10},
+      "attack_strength": 1.33, "defense_strength": 0.67, "is_host_nation": false
+    },
+    "ESP": {
+      "name": "Spain", "confederation": "UEFA",
+      "fifa_ranking": 3, "elo_rating": 1990,
+      "recent_form": {"goals_scored_last_10": 20, "goals_conceded_last_10": 6, "matches_played": 10},
+      "attack_strength": 1.48, "defense_strength": 0.63, "is_host_nation": false
+    },
+    "GER": {
+      "name": "Germany", "confederation": "UEFA",
+      "fifa_ranking": 12, "elo_rating": 1960,
+      "recent_form": {"goals_scored_last_10": 18, "goals_conceded_last_10": 9, "matches_played": 10},
+      "attack_strength": 1.33, "defense_strength": 0.74, "is_host_nation": false
+    },
+    "NED": {
+      "name": "Netherlands", "confederation": "UEFA",
+      "fifa_ranking": 7, "elo_rating": 1940,
+      "recent_form": {"goals_scored_last_10": 17, "goals_conceded_last_10": 9, "matches_played": 10},
+      "attack_strength": 1.26, "defense_strength": 0.78, "is_host_nation": false
+    },
+    "POR": {
+      "name": "Portugal", "confederation": "UEFA",
+      "fifa_ranking": 6, "elo_rating": 1960,
+      "recent_form": {"goals_scored_last_10": 20, "goals_conceded_last_10": 8, "matches_played": 10},
+      "attack_strength": 1.48, "defense_strength": 0.74, "is_host_nation": false
+    },
+    "BEL": {
+      "name": "Belgium", "confederation": "UEFA",
+      "fifa_ranking": 9, "elo_rating": 1900,
+      "recent_form": {"goals_scored_last_10": 15, "goals_conceded_last_10": 9, "matches_played": 10},
+      "attack_strength": 1.11, "defense_strength": 0.78, "is_host_nation": false
+    },
+    "SUI": {
+      "name": "Switzerland", "confederation": "UEFA",
+      "fifa_ranking": 18, "elo_rating": 1860,
+      "recent_form": {"goals_scored_last_10": 14, "goals_conceded_last_10": 9, "matches_played": 10},
+      "attack_strength": 1.04, "defense_strength": 0.78, "is_host_nation": false
+    },
+    "CRO": {
+      "name": "Croatia", "confederation": "UEFA",
+      "fifa_ranking": 10, "elo_rating": 1880,
+      "recent_form": {"goals_scored_last_10": 14, "goals_conceded_last_10": 8, "matches_played": 10},
+      "attack_strength": 1.04, "defense_strength": 0.74, "is_host_nation": false
+    },
+    "AUT": {
+      "name": "Austria", "confederation": "UEFA",
+      "fifa_ranking": 22, "elo_rating": 1820,
+      "recent_form": {"goals_scored_last_10": 15, "goals_conceded_last_10": 10, "matches_played": 10},
+      "attack_strength": 1.11, "defense_strength": 0.81, "is_host_nation": false
+    },
+    "SRB": {
+      "name": "Serbia", "confederation": "UEFA",
+      "fifa_ranking": 29, "elo_rating": 1840,
+      "recent_form": {"goals_scored_last_10": 14, "goals_conceded_last_10": 11, "matches_played": 10},
+      "attack_strength": 1.04, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "DEN": {
+      "name": "Denmark", "confederation": "UEFA",
+      "fifa_ranking": 21, "elo_rating": 1840,
+      "recent_form": {"goals_scored_last_10": 14, "goals_conceded_last_10": 8, "matches_played": 10},
+      "attack_strength": 1.04, "defense_strength": 0.74, "is_host_nation": false
+    },
+    "SCO": {
+      "name": "Scotland", "confederation": "UEFA",
+      "fifa_ranking": 38, "elo_rating": 1780,
+      "recent_form": {"goals_scored_last_10": 13, "goals_conceded_last_10": 11, "matches_played": 10},
+      "attack_strength": 0.96, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "POL": {
+      "name": "Poland", "confederation": "UEFA",
+      "fifa_ranking": 28, "elo_rating": 1800,
+      "recent_form": {"goals_scored_last_10": 13, "goals_conceded_last_10": 12, "matches_played": 10},
+      "attack_strength": 0.96, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "TUR": {
+      "name": "Turkey", "confederation": "UEFA",
+      "fifa_ranking": 32, "elo_rating": 1820,
+      "recent_form": {"goals_scored_last_10": 15, "goals_conceded_last_10": 11, "matches_played": 10},
+      "attack_strength": 1.11, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "HUN": {
+      "name": "Hungary", "confederation": "UEFA",
+      "fifa_ranking": 39, "elo_rating": 1780,
+      "recent_form": {"goals_scored_last_10": 12, "goals_conceded_last_10": 12, "matches_played": 10},
+      "attack_strength": 0.89, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "URU": {
+      "name": "Uruguay", "confederation": "CONMEBOL",
+      "fifa_ranking": 14, "elo_rating": 1840,
+      "recent_form": {"goals_scored_last_10": 15, "goals_conceded_last_10": 9, "matches_played": 10},
+      "attack_strength": 1.11, "defense_strength": 0.74, "is_host_nation": false
+    },
+    "COL": {
+      "name": "Colombia", "confederation": "CONMEBOL",
+      "fifa_ranking": 11, "elo_rating": 1830,
+      "recent_form": {"goals_scored_last_10": 16, "goals_conceded_last_10": 9, "matches_played": 10},
+      "attack_strength": 1.19, "defense_strength": 0.74, "is_host_nation": false
+    },
+    "ECU": {
+      "name": "Ecuador", "confederation": "CONMEBOL",
+      "fifa_ranking": 35, "elo_rating": 1790,
+      "recent_form": {"goals_scored_last_10": 13, "goals_conceded_last_10": 12, "matches_played": 10},
+      "attack_strength": 0.96, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "CHI": {
+      "name": "Chile", "confederation": "CONMEBOL",
+      "fifa_ranking": 45, "elo_rating": 1740,
+      "recent_form": {"goals_scored_last_10": 12, "goals_conceded_last_10": 14, "matches_played": 10},
+      "attack_strength": 0.89, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "VEN": {
+      "name": "Venezuela", "confederation": "CONMEBOL",
+      "fifa_ranking": 50, "elo_rating": 1720,
+      "recent_form": {"goals_scored_last_10": 11, "goals_conceded_last_10": 14, "matches_played": 10},
+      "attack_strength": 0.81, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "USA": {
+      "name": "United States", "confederation": "CONCACAF",
+      "fifa_ranking": 16, "elo_rating": 1830,
+      "recent_form": {"goals_scored_last_10": 15, "goals_conceded_last_10": 10, "matches_played": 10},
+      "attack_strength": 1.11, "defense_strength": 0.81, "is_host_nation": true
+    },
+    "MEX": {
+      "name": "Mexico", "confederation": "CONCACAF",
+      "fifa_ranking": 20, "elo_rating": 1800,
+      "recent_form": {"goals_scored_last_10": 14, "goals_conceded_last_10": 10, "matches_played": 10},
+      "attack_strength": 1.04, "defense_strength": 0.81, "is_host_nation": true
+    },
+    "CAN": {
+      "name": "Canada", "confederation": "CONCACAF",
+      "fifa_ranking": 44, "elo_rating": 1780,
+      "recent_form": {"goals_scored_last_10": 13, "goals_conceded_last_10": 11, "matches_played": 10},
+      "attack_strength": 0.96, "defense_strength": 0.89, "is_host_nation": true
+    },
+    "CRC": {
+      "name": "Costa Rica", "confederation": "CONCACAF",
+      "fifa_ranking": 52, "elo_rating": 1690,
+      "recent_form": {"goals_scored_last_10": 11, "goals_conceded_last_10": 13, "matches_played": 10},
+      "attack_strength": 0.81, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "HON": {
+      "name": "Honduras", "confederation": "CONCACAF",
+      "fifa_ranking": 60, "elo_rating": 1660,
+      "recent_form": {"goals_scored_last_10": 10, "goals_conceded_last_10": 14, "matches_played": 10},
+      "attack_strength": 0.74, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "PAN": {
+      "name": "Panama", "confederation": "CONCACAF",
+      "fifa_ranking": 55, "elo_rating": 1700,
+      "recent_form": {"goals_scored_last_10": 11, "goals_conceded_last_10": 13, "matches_played": 10},
+      "attack_strength": 0.81, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "JPN": {
+      "name": "Japan", "confederation": "AFC",
+      "fifa_ranking": 17, "elo_rating": 1830,
+      "recent_form": {"goals_scored_last_10": 16, "goals_conceded_last_10": 9, "matches_played": 10},
+      "attack_strength": 1.19, "defense_strength": 0.74, "is_host_nation": false
+    },
+    "KOR": {
+      "name": "South Korea", "confederation": "AFC",
+      "fifa_ranking": 22, "elo_rating": 1790,
+      "recent_form": {"goals_scored_last_10": 14, "goals_conceded_last_10": 11, "matches_played": 10},
+      "attack_strength": 1.04, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "AUS": {
+      "name": "Australia", "confederation": "AFC",
+      "fifa_ranking": 24, "elo_rating": 1760,
+      "recent_form": {"goals_scored_last_10": 13, "goals_conceded_last_10": 12, "matches_played": 10},
+      "attack_strength": 0.96, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "KSA": {
+      "name": "Saudi Arabia", "confederation": "AFC",
+      "fifa_ranking": 56, "elo_rating": 1680,
+      "recent_form": {"goals_scored_last_10": 11, "goals_conceded_last_10": 14, "matches_played": 10},
+      "attack_strength": 0.81, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "IRN": {
+      "name": "Iran", "confederation": "AFC",
+      "fifa_ranking": 33, "elo_rating": 1740,
+      "recent_form": {"goals_scored_last_10": 13, "goals_conceded_last_10": 12, "matches_played": 10},
+      "attack_strength": 0.96, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "UZB": {
+      "name": "Uzbekistan", "confederation": "AFC",
+      "fifa_ranking": 65, "elo_rating": 1700,
+      "recent_form": {"goals_scored_last_10": 12, "goals_conceded_last_10": 13, "matches_played": 10},
+      "attack_strength": 0.89, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "JOR": {
+      "name": "Jordan", "confederation": "AFC",
+      "fifa_ranking": 70, "elo_rating": 1660,
+      "recent_form": {"goals_scored_last_10": 10, "goals_conceded_last_10": 14, "matches_played": 10},
+      "attack_strength": 0.74, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "QAT": {
+      "name": "Qatar", "confederation": "AFC",
+      "fifa_ranking": 58, "elo_rating": 1690,
+      "recent_form": {"goals_scored_last_10": 11, "goals_conceded_last_10": 14, "matches_played": 10},
+      "attack_strength": 0.81, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "MAR": {
+      "name": "Morocco", "confederation": "CAF",
+      "fifa_ranking": 13, "elo_rating": 1840,
+      "recent_form": {"goals_scored_last_10": 15, "goals_conceded_last_10": 7, "matches_played": 10},
+      "attack_strength": 1.11, "defense_strength": 0.67, "is_host_nation": false
+    },
+    "SEN": {
+      "name": "Senegal", "confederation": "CAF",
+      "fifa_ranking": 19, "elo_rating": 1800,
+      "recent_form": {"goals_scored_last_10": 14, "goals_conceded_last_10": 9, "matches_played": 10},
+      "attack_strength": 1.04, "defense_strength": 0.74, "is_host_nation": false
+    },
+    "NGA": {
+      "name": "Nigeria", "confederation": "CAF",
+      "fifa_ranking": 30, "elo_rating": 1710,
+      "recent_form": {"goals_scored_last_10": 13, "goals_conceded_last_10": 12, "matches_played": 10},
+      "attack_strength": 0.96, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "EGY": {
+      "name": "Egypt", "confederation": "CAF",
+      "fifa_ranking": 34, "elo_rating": 1680,
+      "recent_form": {"goals_scored_last_10": 12, "goals_conceded_last_10": 13, "matches_played": 10},
+      "attack_strength": 0.89, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "CMR": {
+      "name": "Cameroon", "confederation": "CAF",
+      "fifa_ranking": 42, "elo_rating": 1700,
+      "recent_form": {"goals_scored_last_10": 12, "goals_conceded_last_10": 13, "matches_played": 10},
+      "attack_strength": 0.89, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "CIV": {
+      "name": "Ivory Coast", "confederation": "CAF",
+      "fifa_ranking": 26, "elo_rating": 1720,
+      "recent_form": {"goals_scored_last_10": 13, "goals_conceded_last_10": 12, "matches_played": 10},
+      "attack_strength": 0.96, "defense_strength": 0.89, "is_host_nation": false
+    },
+    "RSA": {
+      "name": "South Africa", "confederation": "CAF",
+      "fifa_ranking": 62, "elo_rating": 1680,
+      "recent_form": {"goals_scored_last_10": 11, "goals_conceded_last_10": 14, "matches_played": 10},
+      "attack_strength": 0.81, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "MLI": {
+      "name": "Mali", "confederation": "CAF",
+      "fifa_ranking": 54, "elo_rating": 1680,
+      "recent_form": {"goals_scored_last_10": 11, "goals_conceded_last_10": 14, "matches_played": 10},
+      "attack_strength": 0.81, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "ALG": {
+      "name": "Algeria", "confederation": "CAF",
+      "fifa_ranking": 47, "elo_rating": 1700,
+      "recent_form": {"goals_scored_last_10": 12, "goals_conceded_last_10": 13, "matches_played": 10},
+      "attack_strength": 0.89, "defense_strength": 1.04, "is_host_nation": false
+    },
+    "NZL": {
+      "name": "New Zealand", "confederation": "OFC",
+      "fifa_ranking": 95, "elo_rating": 1610,
+      "recent_form": {"goals_scored_last_10": 8, "goals_conceded_last_10": 16, "matches_played": 10},
+      "attack_strength": 0.59, "defense_strength": 1.19, "is_host_nation": false
+    },
+    "GHA": {
+      "name": "Ghana", "confederation": "CAF",
+      "fifa_ranking": 61, "elo_rating": 1660,
+      "recent_form": {"goals_scored_last_10": 11, "goals_conceded_last_10": 14, "matches_played": 10},
+      "attack_strength": 0.81, "defense_strength": 1.04, "is_host_nation": false
+    }
+  },
+  "head_to_head": {
+    "ARG_BRA": {
+      "matches_considered": 5, "avg_goal_diff_team1_minus_team2": 0.2,
+      "team1": "ARG", "team2": "BRA", "last_meeting_date": "2023-11-21"
+    },
+    "ARG_FRA": {
+      "matches_considered": 4, "avg_goal_diff_team1_minus_team2": 0.25,
+      "team1": "ARG", "team2": "FRA", "last_meeting_date": "2022-12-18"
+    },
+    "ESP_GER": {
+      "matches_considered": 5, "avg_goal_diff_team1_minus_team2": 0.4,
+      "team1": "ESP", "team2": "GER", "last_meeting_date": "2024-07-05"
+    },
+    "ENG_GER": {
+      "matches_considered": 5, "avg_goal_diff_team1_minus_team2": -0.2,
+      "team1": "ENG", "team2": "GER", "last_meeting_date": "2023-03-28"
+    },
+    "MEX_USA": {
+      "matches_considered": 5, "avg_goal_diff_team1_minus_team2": -0.4,
+      "team1": "MEX", "team2": "USA", "last_meeting_date": "2023-06-15"
+    },
+    "JPN_KOR": {
+      "matches_considered": 4, "avg_goal_diff_team1_minus_team2": 0.25,
+      "team1": "JPN", "team2": "KOR", "last_meeting_date": "2023-03-24"
+    },
+    "MAR_SEN": {
+      "matches_considered": 3, "avg_goal_diff_team1_minus_team2": 0.33,
+      "team1": "MAR", "team2": "SEN", "last_meeting_date": "2022-01-30"
+    }
+  }
+}
