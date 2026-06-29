@@ -69,6 +69,7 @@ def load_tournament_schedule(path: Optional[Path] = None) -> Tournament:
                 neutral_venue=m.get("neutral_venue", True),
                 depends_on=m.get("depends_on", []),
                 status=m.get("status", "scheduled"),
+                final_score=m.get("final_score"),
             )
             for m in s.get("matches", [])
         ]

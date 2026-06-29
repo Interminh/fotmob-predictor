@@ -11,6 +11,7 @@ class Match:
     neutral_venue: bool = True
     depends_on: List[str] = field(default_factory=list)
     status: str = "scheduled"
+    final_score: Optional[dict] = None
 
 
 @dataclass

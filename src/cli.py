@@ -285,6 +285,92 @@ def predict_tournament(
         console.print(f"\nAdvancement probabilities saved: [blue]{p}[/blue]")
 
 
+@app.command("simulate-bracket")
+def simulate_bracket(
+    n_trials: int = typer.Option(100_000, help="Number of Monte Carlo trials"),
+    seed: Optional[int] = typer.Option(None, help="RNG seed"),
+    top: int = typer.Option(0, help="Show only teams with any non-zero probability (0=all participating)"),
+    start_stage: str = typer.Option("Round of 32", help="Stage name to start simulation from"),
+    export: bool = typer.Option(False, help="Export results to JSON"),
+):
+    """
+    Simulate the knockout bracket from a given stage onwards.
+
+    Completed matches use their known result; remaining matches are simulated
+    via the Poisson/Elo engine. Outputs advancement probabilities for each team.
+    """
+    from src.aggregation.bracket_simulator import simulate_from_knockout
+
+    teams, h2h, tournament, _scoring_rules, config = _load_all()
+
+    start_lower = start_stage.lower()
+    all_knockout = [s for s in tournament.stages if s.type == "knockout"]
+    # Find the index of the requested start stage (preserve schedule order)
+    start_idx = next(
+        (i for i, s in enumerate(all_knockout) if s.stage_name.lower() == start_lower),
+        None,
+    )
+    if start_idx is None:
+        # Fall back to first stage
+        start_idx = 0
+    knockout_stages = all_knockout[start_idx:]
+
+    if not knockout_stages:
+        console.print(f"[red]No knockout stages found at or after '{start_stage}'.[/red]")
+        raise typer.Exit(1)
+
+    first_stage_name = knockout_stages[0].stage_name
+    console.print(
+        f"\n[bold]Simulating bracket from [cyan]{first_stage_name}[/cyan] "
+        f"({n_trials:,} trials)…[/bold]"
+    )
+
+    adv = simulate_from_knockout(
+        teams, h2h, knockout_stages, tournament.host_nations, config, n_trials, seed
+    )
+
+    stage_keys = [
+        s.stage_name.lower().replace(" ", "_").replace("-", "_")
+        for s in knockout_stages
+    ]
+
+    # Collect teams that appear in at least one stage
+    participating = {code for code, probs in adv.items() if any(probs.values())}
+    if not participating:
+        console.print("[yellow]No teams resolved — check tournament_schedule.json.[/yellow]")
+        raise typer.Exit(0)
+
+    # Sort by final stage probability descending, then first stage
+    def sort_key(item):
+        code, probs = item
+        return tuple(probs.get(sk, 0.0) for sk in reversed(stage_keys))
+
+    sorted_teams = sorted(
+        [(c, adv[c]) for c in participating],
+        key=sort_key,
+        reverse=True,
+    )
+
+    table = Table(title=f"Bracket Advancement Probabilities (from {first_stage_name})", box=box.SIMPLE_HEAVY)
+    table.add_column("Team", style="bold", min_width=20)
+    for sk in stage_keys:
+        display = sk.replace("_", " ").title()
+        table.add_column(display, style="cyan", justify="right")
+
+    limit = top if top > 0 else len(sorted_teams)
+    for code, probs in sorted_teams[:limit]:
+        name = teams[code].name if code in teams else code
+        row = [name] + [f"{probs.get(sk, 0.0):.1%}" for sk in stage_keys]
+        table.add_row(*row)
+
+    console.print(table)
+
+    if export:
+        out_path = OUTPUTS_DIR / "bracket_advancement.json"
+        export_advancement_json(adv, out_path)
+        console.print(f"\nSaved: [blue]{out_path}[/blue]")
+
+
 @app.command("fetch-data")
 def fetch_data(
     force_refresh: bool = typer.Option(False, help="Bypass cache and re-fetch everything"),
