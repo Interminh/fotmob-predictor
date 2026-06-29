@@ -14,10 +14,15 @@ def _parse_score(score_str: str) -> tuple[int, int]:
 def points_awarded(p_h: int, p_a: int, a_h: int, a_a: int, scoring_rules: dict) -> float:
     if p_h == a_h and p_a == a_a:
         return float(scoring_rules["exact_score_points"])
-    if (p_h - p_a) == (a_h - a_a):
-        return float(scoring_rules["correct_goal_difference_points"])
+    gd_pts = float(scoring_rules["correct_goal_difference_points"])
+    outcome_pts = float(scoring_rules["correct_outcome_points"])
+    # Only apply the GD check if it awards more than the outcome check.
+    # When GD_pts <= outcome_pts (e.g. GD=0, outcome=2), a same-GD result
+    # should still earn outcome points — skipping the GD trap.
+    if gd_pts > outcome_pts and (p_h - p_a) == (a_h - a_a):
+        return gd_pts
     if _sign(p_h - p_a) == _sign(a_h - a_a):
-        return float(scoring_rules["correct_outcome_points"])
+        return outcome_pts
     return float(scoring_rules["wrong_outcome_points"])
 
 

@@ -31,7 +31,8 @@ class TestPointsAwarded:
         assert points_awarded(2, 0, 3, 0, RULES_FULL) == 1.0
 
     def test_correct_outcome_draw(self):
-        assert points_awarded(1, 1, 2, 2, RULES_FULL) == 2.0  # same GD (0)
+        # GD_pts(2) > outcome_pts(1) so GD check fires: both draws have GD=0
+        assert points_awarded(1, 1, 2, 2, RULES_FULL) == 2.0
 
     def test_wrong_outcome(self):
         assert points_awarded(2, 0, 0, 1, RULES_FULL) == 0.0
