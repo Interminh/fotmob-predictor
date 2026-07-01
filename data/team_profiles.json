@@ -1,7 +1,7 @@
 {
   "config": {
-    "league_avg_goals": 1.35,
-    "rating_sensitivity_gamma": 0.3,
+    "league_avg_goals": 1.50,
+    "rating_sensitivity_gamma": 0.45,
     "h2h_weight": 0.08,
     "h2h_normalization_cap": 3.0,
     "home_advantage_factor": 1.08,
