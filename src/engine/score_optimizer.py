@@ -1,3 +1,20 @@
+import math
+
+
+def rounded_scoreline(lambda_home: float, lambda_away: float) -> str:
+    """Nearest-integer scoreline from the raw expected goals (round-half-up).
+
+    Unlike the joint-probability mode (the single most-likely cell), this
+    tracks the mean of each side's Poisson distribution rather than its
+    mode, which floors away the fractional part of both lambdas. For
+    skewed goal distributions the mode systematically undershoots real
+    goal totals; rounding the lambdas directly doesn't.
+    """
+    home = math.floor(lambda_home + 0.5)
+    away = math.floor(lambda_away + 0.5)
+    return f"{home}-{away}"
+
+
 def _sign(x: int) -> int:
     if x > 0:
         return 1

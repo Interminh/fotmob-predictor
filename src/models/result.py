@@ -42,5 +42,6 @@ class SimulationResult:
     top_3_scores: List[ScoreEntry]
     outcome_probabilities: OutcomeProbabilities
     optimal_prediction: OptimalPrediction
+    rounded_pick: str = ""
     score_matrix: Dict[str, float] = field(default_factory=dict)
     knockout_resolution: Optional[KnockoutResolution] = None

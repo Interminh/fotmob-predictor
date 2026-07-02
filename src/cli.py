@@ -14,7 +14,7 @@ from src.config import DEFAULT_CONFIG, OUTPUTS_DIR
 from src.engine.lambda_calculator import compute_lambdas
 from src.engine.monte_carlo import simulate_match_raw, build_score_matrix, outcome_probabilities, top_n_scores
 from src.engine.knockout_resolver import resolve_knockout
-from src.engine.score_optimizer import optimize_prediction
+from src.engine.score_optimizer import optimize_prediction, rounded_scoreline
 from src.io.loader import load_team_profiles, load_tournament_schedule, load_scoring_rules, get_h2h_data
 from src.io.exporter import export_results_json, export_results_csv, export_heatmap, export_advancement_json
 from src.models.result import SimulationResult, ScoreEntry, OutcomeProbabilities, OptimalPrediction, KnockoutResolution
@@ -95,6 +95,7 @@ def _simulate_match_full(
         top_3_scores=[ScoreEntry(s["score"], s["probability"]) for s in top3],
         outcome_probabilities=OutcomeProbabilities(**out_probs),
         optimal_prediction=OptimalPrediction(score=opt["optimal_score"], expected_points=opt["expected_points"]),
+        rounded_pick=rounded_scoreline(lam_h, lam_a),
         score_matrix=matrix,
         knockout_resolution=ko_resolution,
     )
@@ -104,13 +105,7 @@ def _print_match_result(result: SimulationResult, home_name: str, away_name: str
     title = f"{home_name} vs {away_name}  (lam_home={result.lambda_home}, lam_away={result.lambda_away}, N={result.simulations_run:,})"
     console.print(f"\n[bold cyan]{title}[/bold cyan]")
 
-    table = Table(box=box.SIMPLE_HEAVY)
-    table.add_column("Rank", style="bold")
-    table.add_column("Score", style="green")
-    table.add_column("Probability", style="yellow")
-    for i, s in enumerate(result.top_3_scores, 1):
-        table.add_row(str(i), s.score, f"{s.probability:.1%}")
-    console.print(table)
+    console.print(f"[bold yellow]* Predicted Score: {result.rounded_pick}[/bold yellow]")
 
     op = result.outcome_probabilities
     console.print(
@@ -118,8 +113,6 @@ def _print_match_result(result: SimulationResult, home_name: str, away_name: str
         f"[yellow]Draw {op.draw:.0%}[/yellow] | "
         f"[red]Away {op.away_win:.0%}[/red]"
     )
-    opt = result.optimal_prediction
-    console.print(f"[bold yellow]* EV-Optimal Pick: {opt.score}  (expected points: {opt.expected_points:.2f})[/bold yellow]")
 
     if result.knockout_resolution:
         ko = result.knockout_resolution
