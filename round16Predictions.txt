@@ -1,142 +1,24 @@
-Canada vs South Africa  (lam_home=1.6762, lam_away=0.9524, N=10,000)
+=== COMPLETED ROUND OF 32 RESULTS (real, not simulated) ===
 
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      1-1     11.6%
-  2      1-0     11.5%
-  3      2-0     10.4%
+Canada 1-0 South Africa                (Eustaquio 90+2')                — Canada advance
+Brazil 2-1 Japan                       (Casemiro 56', Martinelli 90+5' — Sano 29')     — Brazil advance
+Germany 1-1 Paraguay (a.e.t., pens 3-4)(Havertz 54' — Enciso 42'; PRY win shootout)    — Paraguay advance
+Netherlands 1-1 Morocco (a.e.t., pens 2-3)(Gakpo 72' — Diop 90+1'; MAR win shootout)   — Morocco advance
+Ivory Coast 1-2 Norway                 (Diallo 74' — Nusa 39', Haaland 86')            — Norway advance
+France 3-0 Sweden                      (Mbappe 45', 74', Barcola 53')                  — France advance
+Mexico 2-0 Ecuador                     (Quinones, Jimenez)                             — Mexico advance
+England 2-1 DR Congo                   (Kane 75', 86' — Cipenga early)                 — England advance
+Belgium 3-2 Senegal (a.e.t.)           (Belgium scored twice late in 90' to force ET, won on penalty in ET) — Belgium advance
+United States 2-0 Bosnia and Herzegovina (Balogun, Tillman)                            — United States advance
 
-Outcome:  Home 54% | Draw 24% | Away 22%
-* EV-Optimal Pick: 1-0  (expected points: 1.19)
+Note: Germany and Netherlands — both favorites in the pre-tournament model — were eliminated on
+penalties after 1-1 draws. This is exactly the kind of high-goal/high-variance outcome behind
+today's recalibration: 4 of the last 10 Round of 32 matches were decided by 3+ combined goals
+in normal time alone (Brazil/Japan, Ivory Coast/Norway, France/Sweden, England/DR Congo),
+and Belgium/Senegal produced 5 goals across 120 minutes.
 
-Knockout: drawn after 90' 24.1% | drawn after 120' 12.3%
-Advances: Canada 68% | South Africa 32%  (score ref: 90min)
 
-Brazil vs Japan  (lam_home=1.5685, lam_away=1.1213, N=10,000)
-
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      1-1     12.0%
-  2      1-0     10.5%
-  3      2-1     9.2%
-
-Outcome:  Home 47% | Draw 25% | Away 28%
-* EV-Optimal Pick: 1-0  (expected points: 1.05)
-
-Knockout: drawn after 90' 25.0% | drawn after 120' 12.9%
-Advances: Brazil 61% | Japan 39%  (score ref: 90min)
-
-Germany vs Paraguay  (lam_home=1.8885, lam_away=1.081, N=10,000)
-
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      1-1     10.3%
-  2      2-1     10.1%
-  3      1-0     9.2%
-
-Outcome:  Home 55% | Draw 22% | Away 22%
-* EV-Optimal Pick: 2-1  (expected points: 1.21)
-
-Knockout: drawn after 90' 22.2% | drawn after 120' 10.4%
-Advances: Germany 69% | Paraguay 31%  (score ref: 90min)
-
-Netherlands vs Morocco  (lam_home=1.3484, lam_away=1.2145, N=10,000)
-
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      1-1     12.9%
-  2      1-0     10.6%
-  3      0-1     9.3%
-
-Outcome:  Home 40% | Draw 27% | Away 33%
-* EV-Optimal Pick: 1-0  (expected points: 0.90)
-
-Knockout: drawn after 90' 26.8% | drawn after 120' 14.1%
-Advances: Netherlands 54% | Morocco 46%  (score ref: 90min)
-
-Ivory Coast vs Norway  (lam_home=0.9541, lam_away=1.7549, N=10,000)
-
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      0-1     11.4%
-  2      1-1     10.7%
-  3      0-2     10.3%
-
-Outcome:  Home 21% | Draw 23% | Away 56%
-* EV-Optimal Pick: 0-1  (expected points: 1.24)
-
-Knockout: drawn after 90' 22.8% | drawn after 120' 11.1%
-Advances: Ivory Coast 30% | Norway 70%  (score ref: 90min)
-
-France vs Sweden  (lam_home=2.2209, lam_away=0.7913, N=10,000)
-
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      2-0     11.6%
-  2      1-0     11.3%
-  3      2-1     10.1%
-
-Outcome:  Home 70% | Draw 18% | Away 12%
-* EV-Optimal Pick: 2-0  (expected points: 1.52)
-
-Knockout: drawn after 90' 17.8% | drawn after 120' 7.9%
-Advances: France 82% | Sweden 18%  (score ref: 90min)
-
-Mexico vs Ecuador  (lam_home=1.3974, lam_away=1.1588, N=10,000)
-
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      1-1     13.0%
-  2      1-0     10.7%
-  3      0-1     8.9%
-
-Outcome:  Home 42% | Draw 27% | Away 31%
-* EV-Optimal Pick: 1-0  (expected points: 0.94)
-
-Knockout: drawn after 90' 27.4% | drawn after 120' 14.2%
-Advances: Mexico 56% | Ecuador 44%  (score ref: 90min)
-
-England vs DR Congo  (lam_home=2.1142, lam_away=0.8895, N=10,000)
-
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      2-0     11.1%
-  2      1-0     10.4%
-  3      2-1     9.7%
-
-Outcome:  Home 65% | Draw 20% | Away 15%
-* EV-Optimal Pick: 2-0  (expected points: 1.42)
-
-Knockout: drawn after 90' 19.9% | drawn after 120' 8.8%
-Advances: England 79% | DR Congo 21%  (score ref: 90min)
-
-Belgium vs Senegal  (lam_home=1.2654, lam_away=1.1839, N=10,000)
-
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      1-1     12.8%
-  2      1-0     10.9%
-  3      0-1     10.3%
-
-Outcome:  Home 38% | Draw 27% | Away 35%
-* EV-Optimal Pick: 1-0  (expected points: 0.88)
-
-Knockout: drawn after 90' 27.1% | drawn after 120' 14.3%
-Advances: Belgium 52% | Senegal 48%  (score ref: 90min)
-
-United States vs Bosnia and Herzegovina  (lam_home=1.8984, lam_away=0.8893, N=10,000)
-
-  Rank   Score   Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1      1-0     11.4%
-  2      2-0     10.8%
-  3      1-1     10.4%
-
-Outcome:  Home 60% | Draw 22% | Away 17%
-* EV-Optimal Pick: 1-0  (expected points: 1.32)
-
-Knockout: drawn after 90' 22.1% | drawn after 120' 10.5%
-Advances: United States 74% | Bosnia and Herzegovina 26%  (score ref: 90min)
+=== REMAINING ROUND OF 32 PREDICTIONS ===
 
 Spain vs Austria  (lam_home=2.0853, lam_away=0.8815, N=10,000)
 
@@ -225,39 +107,33 @@ Advances: Argentina 93% | Cape Verde 7%  (score ref: 90min)
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Simulating bracket from Round of 32 (10,000 trials)…
-                           Bracket Advancement Probabilities (from Round of 32)
+Simulating bracket from Round of 32 (100,000 trials)… (completed matches locked to their real result)
+                          Bracket Advancement Probabilities (from Round of 32)
 
-  Team                     Round Of 32   Round Of 16   Quarter Finals   Semi Finals   Third Place   Final
+  Team                   Round Of 32   Round Of 16   Quarter Finals   Semi Finals   Third Place   Final
  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Argentina                      93.0%         82.6%            64.2%         43.1%         15.4%   30.0%
-  Spain                          77.9%         52.1%            40.6%         22.7%         12.3%   14.8%
-  France                         82.3%         59.2%            40.8%         26.6%          8.6%   13.4%
-  Brazil                         61.7%         48.2%            29.3%         15.9%          7.2%    7.0%
-  England                        78.2%         52.9%            25.7%         14.2%          5.7%    5.7%
-  Portugal                       65.9%         29.3%            20.6%          9.2%          6.7%    4.9%
-  Colombia                       83.4%         55.0%            19.4%          8.8%          5.4%    4.1%
-  Germany                        69.8%         36.6%            19.3%          9.0%          4.7%    3.3%
-  Netherlands                    53.6%         29.4%            15.5%          7.2%          3.9%    2.6%
-  Norway                         70.3%         27.6%            14.1%          6.7%          3.2%    2.3%
-  Japan                          38.3%         26.5%            13.1%          5.7%          3.2%    2.0%
-  Morocco                        46.4%         23.9%            11.7%          5.1%          2.8%    1.8%
-  Switzerland                    69.9%         32.1%             9.1%          3.2%          2.4%    1.2%
-  Belgium                        52.2%         32.1%            10.2%          3.2%          3.0%    1.2%
-  Mexico                         56.6%         23.7%             8.4%          3.4%          1.8%    1.0%
-  Senegal                        47.8%         28.3%             8.7%          2.6%          2.5%    0.9%
-  United States                  74.6%         33.9%             9.3%          2.5%          2.5%    0.9%
-  Croatia                        34.1%         10.8%             5.8%          1.8%          1.7%    0.7%
-  Austria                        22.1%          7.8%             4.0%          1.2%          1.2%    0.4%
-  Canada                        100.0%         25.2%             7.5%          2.0%          1.4%    0.4%
-  Ecuador                        43.4%         15.6%             4.7%          1.6%          0.9%    0.3%
-  Paraguay                       30.2%         10.1%             3.5%          1.1%          0.7%    0.3%
-  Australia                      60.5%         10.2%             3.7%          1.0%          0.9%    0.2%
-  Ivory Coast                    29.7%          7.0%             2.3%          0.7%          0.4%    0.1%
-  Sweden                         17.7%          6.2%             2.1%          0.6%          0.4%    0.1%
-  DR Congo                       21.8%          7.8%             1.9%          0.5%          0.3%    0.1%
-  Algeria                        30.1%          8.4%             1.3%          0.3%          0.2%    0.1%
-  Egypt                          39.5%          4.8%             1.3%          0.2%          0.2%    0.0%
-  Bosnia and Herzegovina         25.4%          5.7%             0.7%          0.1%          0.1%    0.0%
-  Cape Verde                      7.0%          2.5%             0.6%          0.1%          0.1%    0.0%
-  Ghana                          16.6%          4.4%             0.5%          0.1%          0.1%    0.0%
+  Argentina                    92.9%         82.3%            64.0%         43.3%         14.9%   29.7%
+  France                      100.0%         67.9%            44.9%         29.1%          9.4%   14.7%
+  Spain                        78.2%         52.7%            40.7%         22.7%         12.2%   14.6%
+  Brazil                      100.0%         78.1%            51.7%         26.7%         13.3%   11.7%
+  England                     100.0%         65.0%            29.0%         15.8%          6.6%    6.3%
+  Portugal                     65.7%         28.9%            19.9%          8.8%          6.3%    4.6%
+  Colombia                     83.5%         54.8%            19.5%          8.8%          5.3%    4.1%
+  Morocco                     100.0%         64.1%            29.1%         11.9%          7.4%    4.0%
+  Norway                      100.0%         32.1%            15.5%          7.4%          3.5%    2.5%
+  Belgium                     100.0%         56.3%            17.8%          5.4%          5.1%    1.9%
+  Switzerland                  70.3%         32.4%             9.1%          3.3%          2.4%    1.2%
+  Mexico                      100.0%         35.0%            10.6%          4.2%          2.3%    1.1%
+  United States               100.0%         43.7%            12.2%          3.3%          3.3%    1.1%
+  Paraguay                    100.0%         35.9%            11.3%          3.0%          2.4%    0.7%
+  Croatia                       34.3%         10.7%             5.7%          1.8%          1.6%    0.6%
+  Canada                      100.0%         21.9%             7.9%          1.9%          1.6%    0.4%
+  Austria                       21.8%          7.7%             3.8%          1.0%          1.1%    0.4%
+  Australia                     60.6%         10.5%             3.8%          1.0%          0.8%    0.2%
+  Algeria                       29.7%          8.3%             1.3%          0.3%          0.2%    0.1%
+  Egypt                         39.4%          4.7%             1.2%          0.2%          0.2%    0.0%
+  Cape Verde                     7.1%          2.5%             0.6%          0.1%          0.1%    0.0%
+  Ghana                         16.5%          4.5%             0.5%          0.1%          0.1%    0.0%
+
+Eliminated in Round of 32 (0% from here on): South Africa, Japan, Germany, Netherlands,
+Ivory Coast, Sweden, Ecuador, DR Congo, Senegal, Bosnia and Herzegovina.
