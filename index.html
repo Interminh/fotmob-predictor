@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WC 2026 Predictions — Monte Carlo Model</title>
+<meta name="description" content="A Monte Carlo Poisson model's World Cup 2026 Round of 32 predictions, tracked live against real results and compared to naive/Elo baselines.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%BD%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script src="data.js"></script>
+<style>
+  :root {
+    --cream-bg:      #F2EDE4;
+    --cream-card:    #FDFAF5;
+    --cream-border:  #E5DDD0;
+    --ink:           #1A1A1A;
+    --ink-secondary: #6B6560;
+    --green-exact:   #1F7A4A;
+    --green-light:   #EAF5EE;
+    --amber-partial: #B45309;
+    --amber-light:   #FEF3C7;
+    --slate-miss:    #94918E;
+    --bar-home:      #2563EB;
+    --bar-draw:      #9CA3AF;
+    --bar-away:      #DC2626;
+    --bar-prob-fill: #1A1A1A;
+    --bar-prob-bg:   #E5DDD0;
+    --accent-flag:   #2563EB;
+
+    --type-score: clamp(2.5rem, 5vw, 3.5rem);
+    --type-team:  1.1rem;
+    --type-label: 0.72rem;
+    --type-stat:  0.85rem;
+    --type-mono:  0.78rem;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream-bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.4;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .label {
+    font-size: var(--type-label);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-secondary);
+  }
+
+  /* ---------- Header ---------- */
+  header.hero {
+    background: var(--cream-card);
+    border: 1px solid var(--cream-border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .hero-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin: 0 0 0.15rem;
+  }
+
+  .hero-subtitle {
+    color: var(--ink-secondary);
+    font-size: var(--type-stat);
+    margin: 0;
+  }
+
+  .model-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    background: var(--cream-border);
+    color: var(--ink);
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .stat-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .stat-tile {
+    background: var(--cream-bg);
+    border: 1px solid var(--cream-border);
+    border-radius: 10px;
+    padding: 0.9rem 0.75rem;
+    text-align: center;
+  }
+
+  .stat-tile .value {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    line-height: 1.1;
+  }
+
+  .stat-tile .caption {
+    font-size: var(--type-label);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-secondary);
+    margin-top: 0.25rem;
+  }
+
+  .hero-progress {
+    margin-top: 0.9rem;
+    font-size: var(--type-stat);
+    color: var(--ink-secondary);
+  }
+
+  /* ---------- Comparison table ---------- */
+  section.comparison {
+    margin-bottom: 1.5rem;
+  }
+
+  section.comparison h2 {
+    font-size: var(--type-label);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-secondary);
+    margin: 0 0 0.6rem;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--cream-border);
+  }
+
+  table.leaderboard {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--cream-card);
+    font-size: var(--type-stat);
+    min-width: 480px;
+  }
+
+  table.leaderboard th, table.leaderboard td {
+    text-align: left;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--cream-border);
+  }
+
+  table.leaderboard th {
+    font-size: var(--type-label);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-secondary);
+    font-weight: 500;
+  }
+
+  table.leaderboard tr:last-child td { border-bottom: none; }
+
+  table.leaderboard tr.model-row td {
+    font-weight: 600;
+    background: var(--cream-card);
+    border-left: 3px solid var(--green-exact);
+  }
+  table.leaderboard tr.model-row td:first-child { padding-left: calc(1rem - 3px); }
+
+  .comparison-note {
+    font-size: var(--type-stat);
+    color: var(--ink-secondary);
+    margin-top: 0.6rem;
+  }
+
+  /* ---------- Match cards ---------- */
+  section.matches { display: flex; flex-direction: column; gap: 1rem; }
+
+  .card {
+    background: var(--cream-card);
+    border: 1px solid var(--cream-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .card.exact { box-shadow: 0 0 0 2px var(--green-exact); }
+  .card.partial { border-left: 3px solid var(--amber-partial); }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .card-date {
+    font-size: var(--type-stat);
+    color: var(--ink-secondary);
+  }
+
+  .pill {
+    font-size: var(--type-label);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .pill.completed { background: var(--green-light); color: var(--green-exact); }
+  .pill.today     { background: var(--amber-light); color: var(--amber-partial); }
+  .pill.upcoming  { background: var(--cream-border); color: var(--ink-secondary); }
+  .pill.exact     { background: var(--green-light); color: var(--green-exact); }
+  .pill.partial   { background: var(--amber-light); color: var(--amber-partial); }
+  .pill.miss      { background: transparent; color: var(--slate-miss); }
+
+  .scoreboard {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .score-block { text-align: center; }
+  .score-block .label { display: block; margin-bottom: 0.5rem; }
+
+  .score-teams {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .team {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: var(--type-team);
+  }
+
+  .team img {
+    width: 28px;
+    height: auto;
+    border-radius: 3px;
+    display: block;
+  }
+
+  .team.away { flex-direction: row-reverse; }
+
+  .score-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: var(--type-score);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .score-num.faded { color: var(--ink-secondary); font-weight: 700; opacity: 0.5; }
+
+  .score-divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--cream-border);
+    margin: 0 0.5rem;
+  }
+
+  .awaiting {
+    font-size: var(--type-label);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-secondary);
+    text-align: center;
+    margin-top: 0.35rem;
+  }
+
+  .section-rule {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1.1rem 0 0.9rem;
+  }
+
+  .section-rule .label { white-space: nowrap; }
+  .section-rule::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--cream-border);
+  }
+
+  .bar-row {
+    display: grid;
+    grid-template-columns: 3rem 1fr 3.2rem;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.45rem;
+    font-size: var(--type-stat);
+  }
+
+  .bar-row .bar-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-mono);
+    color: var(--ink-secondary);
+  }
+
+  .bar-track {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--bar-prob-bg);
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    width: 0%;
+    background: var(--bar-prob-fill);
+  }
+
+  .bar-pct { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .bar-1x2 {
+    display: flex;
+    height: 22px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0.4rem;
+  }
+  .bar-1x2 span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .bar-1x2 .home { background: var(--bar-home); }
+  .bar-1x2 .draw { background: var(--bar-draw); }
+  .bar-1x2 .away { background: var(--bar-away); }
+
+  .bar-1x2-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--type-label);
+    color: var(--ink-secondary);
+    margin-bottom: 0.9rem;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--cream-border);
+  }
+
+  .footer-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-mono);
+    color: var(--ink-secondary);
+  }
+
+  .match-note {
+    font-size: var(--type-stat);
+    color: var(--ink-secondary);
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+
+  /* Full distribution toggle */
+  .dist-toggle {
+    background: none;
+    border: none;
+    color: var(--ink-secondary);
+    font-family: 'Inter', sans-serif;
+    font-size: var(--type-stat);
+    cursor: pointer;
+    padding: 0.3rem 0;
+    margin-top: 0.4rem;
+  }
+  .dist-toggle:hover { color: var(--ink); }
+
+  .dist-grid {
+    display: none;
+    margin-top: 0.75rem;
+  }
+  .dist-grid.open { display: block; }
+
+  .heatmap {
+    display: grid;
+    grid-template-columns: 2rem repeat(6, 1fr);
+    gap: 3px;
+    max-width: 380px;
+  }
+  .heatmap .hcell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 3px;
+    color: var(--ink);
+  }
+  .heatmap .hcell.axis {
+    background: none;
+    color: var(--ink-secondary);
+    font-weight: 600;
+  }
+
+  a[href], button, .dist-toggle {
+    outline-offset: 2px;
+  }
+  a[href]:focus-visible, button:focus-visible, .dist-toggle:focus-visible {
+    outline: 2px solid var(--green-exact);
+  }
+
+  footer.page-footer {
+    text-align: center;
+    font-size: var(--type-stat);
+    color: var(--ink-secondary);
+    margin-top: 2.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bar-fill { transition: width 0.6s ease; }
+    .bar-1x2 span { transition: width 0.6s ease; }
+  }
+
+  @media (max-width: 600px) {
+    .score-num { font-size: clamp(2rem, 8vw, 2.5rem); }
+    .scoreboard { grid-template-columns: 1fr auto 1fr; }
+    .score-teams { flex-direction: column; gap: 0.3rem; }
+    .team.away { flex-direction: row; }
+    .card-top { flex-direction: column; align-items: flex-start; }
+    .bar-1x2-labels { flex-wrap: wrap; }
+    .stat-tiles { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .card { box-shadow: none !important; }
+    .model-pill { display: none; }
+    .dist-grid { display: block !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <p class="hero-title">⚽ Monte Carlo World Cup Predictor</p>
+        <p class="hero-subtitle">World Cup 2026 · Round of 32</p>
+      </div>
+      <span class="model-pill" id="model-pill">N=10,000 · Poisson</span>
+    </div>
+
+    <div class="stat-tiles">
+      <div class="stat-tile">
+        <div class="value" id="stat-points">—</div>
+        <div class="caption">pts earned</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="stat-outcomes">—</div>
+        <div class="caption">correct outcomes</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="stat-exact">—</div>
+        <div class="caption">exact scores</div>
+      </div>
+    </div>
+
+    <p class="hero-progress" id="hero-progress"></p>
+  </header>
+
+  <section class="comparison">
+    <h2>Leaderboard</h2>
+    <div class="table-wrap">
+      <table class="leaderboard" id="comparison-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Points</th>
+            <th>Correct Outcomes</th>
+            <th>Exact Scores</th>
+          </tr>
+        </thead>
+        <tbody id="comparison-body"></tbody>
+      </table>
+    </div>
+    <p class="comparison-note">Community and baseline figures will be updated as results come in. Naive baseline always predicts the first-listed team to win 1-0.</p>
+  </section>
+
+  <section class="matches" id="matches"></section>
+
+  <footer class="page-footer" id="page-footer"></footer>
+</div>
+
+<script>
+(function () {
+  var DATA = window.MATCH_DATA;
+  var today = new Date().toISOString().slice(0, 10);
+
+  // --------------------------------------------------------------------
+  // Flag codes (ISO 3166-1 alpha-2, or flagcdn subdivision codes)
+  // --------------------------------------------------------------------
+  var FLAG_MAP = {
+    CAN: 'ca', RSA: 'za', BRA: 'br', JPN: 'jp', GER: 'de', PRY: 'py',
+    NED: 'nl', MAR: 'ma', CIV: 'ci', NOR: 'no', FRA: 'fr', SWE: 'se',
+    MEX: 'mx', ECU: 'ec', ENG: 'gb-eng', COD: 'cd', BEL: 'be', SEN: 'sn',
+    USA: 'us', BIH: 'ba', ESP: 'es', AUT: 'at', POR: 'pt', CRO: 'hr',
+    SUI: 'ch', ALG: 'dz', COL: 'co', GHA: 'gh', AUS: 'au', EGY: 'eg',
+    ARG: 'ar', CPV: 'cv', DEN: 'dk', SCO: 'gb-sct', WAL: 'gb-wls',
+    ITA: 'it', KOR: 'kr', CHN: 'cn', URU: 'uy', CHI: 'cl', VEN: 've',
+    QAT: 'qa', KSA: 'sa', IRN: 'ir', JOR: 'jo', UZB: 'uz', NZL: 'nz',
+    CMR: 'cm', NGA: 'ng', MLI: 'ml', PAN: 'pa', CRC: 'cr', HON: 'hn',
+    TUR: 'tr', POL: 'pl', HUN: 'hu', SRB: 'rs'
+  };
+  function flagUrl(code) {
+    var iso2 = FLAG_MAP[code] || code.toLowerCase().slice(0, 2);
+    return 'https://flagcdn.com/w40/' + iso2 + '.png';
+  }
+
+  // --------------------------------------------------------------------
+  // Points calculation
+  // --------------------------------------------------------------------
+  function calcPoints(predicted, actual, rules) {
+    if (!actual || !predicted) return null;
+    var p = predicted.split('-').map(Number);
+    var a = actual.split('-').map(Number);
+    var ph = p[0], pa = p[1], ah = a[0], aa = a[1];
+    if (ph === ah && pa === aa) return rules.exact;
+    if (rules.goal_diff > rules.outcome && (ph - pa) === (ah - aa)) return rules.goal_diff;
+    var signP = Math.sign(ph - pa), signA = Math.sign(ah - aa);
+    if (signP === signA) return rules.outcome;
+    return 0;
+  }
+
+  DATA.matches.forEach(function (m) {
+    m.isToday = m.date === today;
+    if (m.points_earned === null && m.actual_score) {
+      m.points_earned = calcPoints(m.predicted_score, m.actual_score, DATA.meta.scoring_rules);
+    }
+  });
+
+  // --------------------------------------------------------------------
+  // Header stats
+  // --------------------------------------------------------------------
+  var completed = DATA.matches.filter(function (m) { return m.status === 'completed'; });
+  var totalPoints = completed.reduce(function (s, m) { return s + (m.points_earned || 0); }, 0);
+  var correctOutcomes = completed.filter(function (m) { return (m.points_earned || 0) >= DATA.meta.scoring_rules.outcome; }).length;
+  var exactScores = completed.filter(function (m) { return m.points_earned === DATA.meta.scoring_rules.exact; }).length;
+
+  document.getElementById('stat-points').textContent = totalPoints;
+  document.getElementById('stat-outcomes').textContent = correctOutcomes + '/' + completed.length;
+  document.getElementById('stat-exact').textContent = exactScores + '/' + completed.length;
+  document.getElementById('hero-progress').textContent =
+    completed.length + ' of ' + DATA.matches.length + ' matches complete';
+  document.getElementById('model-pill').textContent = DATA.meta.model_name.replace('Monte Carlo Poisson (', '').replace(')', '');
+
+  // --------------------------------------------------------------------
+  // Comparison table
+  // --------------------------------------------------------------------
+  function fmtOrDash(v) { return (v === null || v === undefined) ? '—' : v; }
+
+  var rows = [
+    {
+      name: DATA.meta.model_name,
+      description: 'This model',
+      points_scored: totalPoints,
+      correct_outcomes: correctOutcomes,
+      exact_scores: exactScores,
+      isModel: true
+    }
+  ].concat(DATA.comparison_models);
+
+  var tbody = document.getElementById('comparison-body');
+  rows.forEach(function (r) {
+    var tr = document.createElement('tr');
+    if (r.isModel) tr.className = 'model-row';
+    tr.innerHTML =
+      '<td>' + r.name + '<div class="footer-mono" style="margin-top:2px;">' + (r.description || '') + '</div></td>' +
+      '<td>' + fmtOrDash(r.points_scored) + '</td>' +
+      '<td>' + fmtOrDash(r.correct_outcomes) + '</td>' +
+      '<td>' + fmtOrDash(r.exact_scores) + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  // --------------------------------------------------------------------
+  // Poisson PMF (for the full-distribution heatmap toggle)
+  // --------------------------------------------------------------------
+  function factorial(n) { var f = 1; for (var i = 2; i <= n; i++) f *= i; return f; }
+  function poissonPmf(k, lambda) { return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k); }
+
+  function buildHeatmap(lambdaHome, lambdaAway) {
+    var max = 5;
+    var cells = [];
+    var maxProb = 0;
+    for (var h = 0; h <= max; h++) {
+      for (var a = 0; a <= max; a++) {
+        var p = poissonPmf(h, lambdaHome) * poissonPmf(a, lambdaAway);
+        maxProb = Math.max(maxProb, p);
+        cells.push({ h: h, a: a, p: p });
+      }
+    }
+    var html = '<div class="heatmap">';
+    html += '<div class="hcell axis"></div>';
+    for (var a2 = 0; a2 <= max; a2++) html += '<div class="hcell axis">' + a2 + '</div>';
+    for (var h2 = 0; h2 <= max; h2++) {
+      html += '<div class="hcell axis">' + h2 + '</div>';
+      for (var a3 = 0; a3 <= max; a3++) {
+        var cell = cells.find(function (c) { return c.h === h2 && c.a === a3; });
+        var intensity = maxProb > 0 ? cell.p / maxProb : 0;
+        var bg = 'rgba(31,122,74,' + (0.08 + intensity * 0.75).toFixed(3) + ')';
+        html += '<div class="hcell" style="background:' + bg + '" title="' + h2 + '-' + a3 + ': ' + (cell.p * 100).toFixed(1) + '%">' +
+          (cell.p * 100).toFixed(0) + '%</div>';
+      }
+    }
+    html += '</div>';
+    return html;
+  }
+
+  // --------------------------------------------------------------------
+  // Card rendering
+  // --------------------------------------------------------------------
+  function statusPill(m) {
+    if (m.status === 'completed') return '<span class="pill completed">Completed</span>';
+    if (m.isToday) return '<span class="pill today">Today</span>';
+    return '<span class="pill upcoming">Upcoming</span>';
+  }
+
+  function resultPill(m) {
+    if (m.points_earned === null || m.points_earned === undefined) return '';
+    if (m.points_earned === DATA.meta.scoring_rules.exact) return '<span class="pill exact">&#10003; Exact</span>';
+    if (m.points_earned >= DATA.meta.scoring_rules.outcome) return '<span class="pill partial">~ Correct Result</span>';
+    return '<span class="pill miss">&#10007; Miss</span>';
+  }
+
+  function cardClass(m) {
+    if (m.points_earned === DATA.meta.scoring_rules.exact) return 'card exact';
+    if (m.points_earned !== null && m.points_earned >= DATA.meta.scoring_rules.outcome) return 'card partial';
+    return 'card';
+  }
+
+  function footerPointsPill(m) {
+    if (m.points_earned === null || m.points_earned === undefined) return '';
+    if (m.points_earned === DATA.meta.scoring_rules.exact) return '<span class="pill exact">' + m.points_earned + ' pts &#10003;</span>';
+    if (m.points_earned >= DATA.meta.scoring_rules.outcome) return '<span class="pill partial">' + m.points_earned + ' pts ~</span>';
+    return '<span class="pill miss">' + m.points_earned + ' pts &#10007;</span>';
+  }
+
+  function scoreDisplay(m) {
+    var predParts = m.predicted_score.split('-');
+    var actualHtml;
+    if (m.actual_score) {
+      actualHtml = '<div class="score-num">' + m.actual_score.replace('-', ' — ') + '</div>';
+    } else {
+      actualHtml = '<div class="score-num faded">— —</div><div class="awaiting">Awaiting Result</div>';
+    }
+    return (
+      '<div class="scoreboard">' +
+        '<div class="score-block">' +
+          '<span class="label">Predicted</span>' +
+          '<div class="score-num">' + predParts.join(' — ') + '</div>' +
+        '</div>' +
+        '<div class="score-divider"></div>' +
+        '<div class="score-block">' +
+          '<span class="label">Actual</span>' +
+          actualHtml +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  function barRows(m, delayStart) {
+    var html = '';
+    m.top_scores.forEach(function (s, i) {
+      var widthPct = Math.min(100, (s.prob / 0.20) * 100);
+      html +=
+        '<div class="bar-row">' +
+          '<span class="bar-key">' + s.score + '</span>' +
+          '<span class="bar-track"><span class="bar-fill" data-final="' + widthPct + '" style="transition-delay:' + (delayStart + i * 50) + 'ms"></span></span>' +
+          '<span class="bar-pct">' + (s.prob * 100).toFixed(1) + '%</span>' +
+        '</div>';
+    });
+    return html;
+  }
+
+  function bar1x2(m, delayStart) {
+    var op = m.outcome_probs;
+    var hPct = (op.home * 100).toFixed(0);
+    var dPct = (op.draw * 100).toFixed(0);
+    var aPct = (op.away * 100).toFixed(0);
+    return (
+      '<div class="bar-1x2">' +
+        '<span class="home" data-final="' + (op.home * 100) + '" style="width:0%;transition-delay:' + delayStart + 'ms">' + (op.home > 0.12 ? hPct + '%' : '') + '</span>' +
+        '<span class="draw" data-final="' + (op.draw * 100) + '" style="width:0%;transition-delay:' + (delayStart + 50) + 'ms">' + (op.draw > 0.12 ? dPct + '%' : '') + '</span>' +
+        '<span class="away" data-final="' + (op.away * 100) + '" style="width:0%;transition-delay:' + (delayStart + 100) + 'ms">' + (op.away > 0.12 ? aPct + '%' : '') + '</span>' +
+      '</div>' +
+      '<div class="bar-1x2-labels"><span>Home ' + hPct + '%</span><span>Draw ' + dPct + '%</span><span>Away ' + aPct + '%</span></div>'
+    );
+  }
+
+  function renderCard(m, idx) {
+    var delayStart = idx * 20;
+    var footerPoints = footerPointsPill(m);
+    return (
+      '<article class="' + cardClass(m) + '" data-match="' + m.match_id + '">' +
+        '<div class="card-top">' +
+          '<span class="card-date">' + m.date + ' · Round of 32</span>' +
+          '<div style="display:flex;gap:0.4rem;align-items:center;">' + statusPill(m) + resultPill(m) + '</div>' +
+        '</div>' +
+
+        '<div class="score-teams" style="margin-bottom:0.9rem;">' +
+          '<div class="team home"><img src="' + flagUrl(m.home_code) + '" alt="' + m.home + ' flag" loading="lazy">' + m.home + '</div>' +
+          '<div class="team away"><img src="' + flagUrl(m.away_code) + '" alt="' + m.away + ' flag" loading="lazy">' + m.away + '</div>' +
+        '</div>' +
+
+        scoreDisplay(m) +
+
+        (m.note ? '<p class="match-note">' + m.note + '</p>' : '') +
+
+        '<div class="section-rule"><span class="label">Probability Breakdown</span></div>' +
+        barRows(m, delayStart) +
+        '<div style="margin-top:0.8rem;">' + bar1x2(m, delayStart) + '</div>' +
+
+        '<button class="dist-toggle" data-toggle="' + m.match_id + '">&#9662; Full distribution</button>' +
+        '<div class="dist-grid" id="dist-' + m.match_id + '">' + buildHeatmap(m.lambda.home, m.lambda.away) + '</div>' +
+
+        '<div class="card-footer">' +
+          '<span class="footer-mono">&lambda;_home ' + m.lambda.home.toFixed(3) + ' &middot; &lambda;_away ' + m.lambda.away.toFixed(3) + ' &middot; Pick: ' + m.predicted_score + '</span>' +
+          footerPoints +
+        '</div>' +
+      '</article>'
+    );
+  }
+
+  // --------------------------------------------------------------------
+  // Ordering: completed (newest first) -> today -> upcoming (chronological)
+  // --------------------------------------------------------------------
+  var sorted = DATA.matches.slice().sort(function (a, b) {
+    function rank(m) {
+      if (m.status === 'completed') return 0;
+      if (m.isToday) return 1;
+      return 2;
+    }
+    var ra = rank(a), rb = rank(b);
+    if (ra !== rb) return ra - rb;
+    if (ra === 0) return b.date.localeCompare(a.date); // completed: newest first
+    return a.date.localeCompare(b.date); // upcoming: chronological
+  });
+
+  var container = document.getElementById('matches');
+  container.innerHTML = sorted.map(renderCard).join('');
+
+  // Bar fill animation (respects prefers-reduced-motion via CSS transition being absent)
+  requestAnimationFrame(function () {
+    document.querySelectorAll('.bar-fill[data-final]').forEach(function (el) {
+      el.style.width = el.getAttribute('data-final') + '%';
+    });
+    document.querySelectorAll('.bar-1x2 span[data-final]').forEach(function (el) {
+      el.style.width = el.getAttribute('data-final') + '%';
+    });
+  });
+
+  // Distribution toggle
+  document.querySelectorAll('.dist-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var id = btn.getAttribute('data-toggle');
+      var grid = document.getElementById('dist-' + id);
+      var open = grid.classList.toggle('open');
+      btn.innerHTML = (open ? '&#9652; ' : '&#9662; ') + 'Full distribution';
+    });
+  });
+
+  // Footer
+  document.getElementById('page-footer').textContent =
+    DATA.meta.model_name + ' · Data from API-Football · Last updated ' + DATA.meta.last_updated;
+})();
+</script>
+</body>
+</html>
