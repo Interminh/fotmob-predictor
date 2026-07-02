@@ -11,7 +11,7 @@ Given team profiles (attack/defense coefficients, Elo ratings, recent form), the
 
 1. Computes expected goals (λ) for each team in a matchup
 2. Runs thousands of Poisson-sampled match simulations
-3. Aggregates outcome probabilities, top scores, and EV-optimal picks
+3. Aggregates outcome probabilities and a predicted scoreline
 4. For knockout matches — resolves extra time and penalties
 5. For full tournaments — simulates the entire bracket across 100,000 trials
 
@@ -34,7 +34,7 @@ fotmob-predictor/
 │   │   ├── lambda_calculator.py   Computes expected goals from team profiles
 │   │   ├── monte_carlo.py         Poisson simulation, score matrix, outcome probs
 │   │   ├── knockout_resolver.py   Extra time + penalty shootout resolver
-│   │   └── score_optimizer.py     EV-optimal score picker
+│   │   └── score_optimizer.py     Rounded-scoreline pick + EV-optimal calculator
 │   ├── aggregation/
 │   │   ├── group_standings.py     Group ranking with tiebreakers
 │   │   └── bracket_simulator.py   Full tournament bracket simulation
@@ -61,11 +61,14 @@ fotmob-predictor/
 For each match, the engine computes attack/defense-adjusted expected goals per team:
 
 ```
-λ_home = μ × attack_home × defense_away × home_advantage × h2h_weight
-λ_away = μ × attack_away × defense_home × h2h_weight
+λ_home = μ × attack_home × defense_away × elo_modifier_home × h2h_modifier_home × home_advantage
+λ_away = μ × attack_away × defense_home × elo_modifier_away × h2h_modifier_away
 ```
 
-Where `μ = 1.35` (tournament league average), home advantage is `1.08×` for non-neutral venues, and H2H adjusts by up to `±8%`.
+Where `μ = 1.50` (tournament league average — calibrated to the 2026 group stage's observed
+2.99 goals/game), the Elo modifier scales by `±(rating_sensitivity_gamma × 0.5)` based on each
+team's Elo win probability, home advantage is `1.08×` for non-neutral venues, and H2H adjusts
+by up to `±8%`.
 
 ### Match Simulation
 
@@ -73,7 +76,9 @@ Each match runs **10,000 Poisson samples** by default:
 
 - Goals drawn from `Poisson(λ_home)` and `Poisson(λ_away)`
 - Produces a full score probability matrix (e.g. P(2-1), P(1-0), …)
-- Outputs: win/draw/loss %, top-3 most likely scores, EV-optimal pick
+- Outputs: win/draw/loss %, and a predicted scoreline (`round(λ_home), round(λ_away)` —
+  tracks the expected-goals mean rather than the single most-probable cell, which floors
+  away both lambdas' fractional parts and undershoots real goal totals)
 
 ### Knockout Resolution
 
@@ -130,15 +135,8 @@ python main.py fetch-data
 
 ```
 Argentina vs France  (lam_home=1.52, lam_away=1.38, N=10,000)
-
- Rank  Score  Probability
- ━━━━━━━━━━━━━━━━━━━━━━━━
- 1     1-1    12.1%
- 2     2-1    11.3%
- 3     1-0    9.8%
-
+* Predicted Score: 2-1
 Outcome:  Home 44% | Draw 26% | Away 30%
-★ EV-Optimal Pick: 1-1  (expected points: 2.34)
 
 Knockout: drawn after 90' 26.2% | drawn after 120' 8.1%
 Advances: Argentina 51% | France 49%  (score ref: 90min)
@@ -152,13 +150,18 @@ Key parameters live in [src/config.py](src/config.py):
 
 | Parameter | Default | Effect |
 |---|---|---|
-| `league_avg_goals` | `1.35` | Baseline goals per team per match |
-| `rating_sensitivity_gamma` | `0.30` | Elo influence on λ |
+| `league_avg_goals` | `1.50` | Baseline goals per team per match |
+| `rating_sensitivity_gamma` | `0.45` | Elo influence on λ |
 | `h2h_weight` | `0.08` | Head-to-head adjustment strength |
 | `home_advantage_factor` | `1.08` | Multiplier for home team at non-neutral venues |
 | `penalty_skill_factor` | `0.10` | Elo tilt in penalty shootout |
 | `n_simulations` | `10,000` | Samples per match simulation |
 | `n_tournament_trials` | `100,000` | Trials for full bracket simulation |
+
+> **Note:** `team_profiles.json` embeds its own `config` block, which is merged over
+> `DEFAULT_CONFIG` at load time (`{**DEFAULT_CONFIG, **profile_config}` in `cli.py`). If you
+> change a parameter in `src/config.py`, update the matching value in `data/team_profiles.json`
+> too, or it'll be silently overridden.
 
 ---
 
@@ -170,6 +173,11 @@ Key parameters live in [src/config.py](src/config.py):
 | **eloratings.net** | Live Elo ratings (48 WC teams) | Auto-fetched on each run, falls back to static snapshot |
 | **`team_profiles.json`** | Attack/defense coefficients, confederation, FIFA ranking | Built by `fetch-data`, manually editable |
 | **`tournament_schedule.json`** | Full match schedule (group + knockout) | Manually maintained |
+
+> **Note:** a free API-Football plan does not have access to the 2026 season's stats endpoint
+> (`teams/statistics`) — `fetch-data` will run without error but silently leave team stats
+> unchanged. Completed-match results in `tournament_schedule.json` currently have to be
+> backfilled by hand (`status: "completed"` + `final_score`) as rounds finish.
 
 ---
 
