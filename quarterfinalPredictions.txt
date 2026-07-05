@@ -23,12 +23,14 @@ Canada vs Morocco  (Jul 4)  (lam_home=0.8966, lam_away=1.5866, N=10,000)
 Outcome:  Home 21% | Draw 25% | Away 54%
 Knockout: drawn after 90' 24.8% | drawn after 120' 12.8%
 Advances: Canada 32% | Morocco 68%
+>> RESULT: Canada 0-3 Morocco — correct outcome, +2 pts
 
 Paraguay vs France  (Jul 4)  (lam_home=0.8783, lam_away=2.1829, N=10,000)
 * Predicted Score: 1-2
 Outcome:  Home 14% | Draw 19% | Away 68%
 Knockout: drawn after 90' 18.7% | drawn after 120' 8.4%
 Advances: Paraguay 20% | France 80%
+>> RESULT: Paraguay 0-1 France — correct outcome, +2 pts
 
 Brazil vs Norway  (Jul 5)  (lam_home=1.5614, lam_away=1.127, N=10,000)
 * Predicted Score: 2-1

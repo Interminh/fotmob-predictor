@@ -184,8 +184,8 @@
       "stage_name": "Round of 16",
       "type": "knockout",
       "matches": [
-        {"match_id": "R16_1", "home": "CAN", "away": "MAR", "date": "2026-07-04", "neutral_venue": true, "depends_on": ["R32_1_winner", "R32_4_winner"]},
-        {"match_id": "R16_2", "home": "PRY", "away": "FRA", "date": "2026-07-04", "neutral_venue": true, "depends_on": ["R32_3_winner", "R32_6_winner"]},
+        {"match_id": "R16_1", "home": "CAN", "away": "MAR", "date": "2026-07-04", "neutral_venue": true, "depends_on": ["R32_1_winner", "R32_4_winner"], "status": "completed", "final_score": {"home": 0, "away": 3}},
+        {"match_id": "R16_2", "home": "PRY", "away": "FRA", "date": "2026-07-04", "neutral_venue": true, "depends_on": ["R32_3_winner", "R32_6_winner"], "status": "completed", "final_score": {"home": 0, "away": 1}},
         {"match_id": "R16_3", "home": "BRA", "away": "NOR", "date": "2026-07-05", "neutral_venue": true, "depends_on": ["R32_2_winner", "R32_5_winner"]},
         {"match_id": "R16_4", "home": "MEX", "away": "ENG", "date": "2026-07-05", "neutral_venue": true, "depends_on": ["R32_7_winner", "R32_8_winner"]},
         {"match_id": "R16_5", "home": "POR", "away": "ESP", "date": "2026-07-06", "neutral_venue": true, "depends_on": ["R32_12_winner", "R32_11_winner"]},

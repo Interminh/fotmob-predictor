@@ -34,7 +34,7 @@ window.MATCH_DATA = {
     // Matches data/scoring_rules.json in the main project: exact score = 3,
     // goal_diff bonus is disabled (0, folded into outcome), correct outcome = 2.
     scoring_rules: { exact: 3, goal_diff: 0, outcome: 2 },
-    last_updated: "2026-07-01"
+    last_updated: "2026-07-05"
   },
 
   // ------------------------------------------------------------------------
@@ -70,16 +70,20 @@ window.MATCH_DATA = {
     {
       name: "Simple Elo (outcome only)",
       description: "Always picks the Elo-favourite to win 1-0",
-      points_scored: 15,
-      correct_outcomes: 7,
-      exact_scores: 1
+      // 18 completed matches (16 R32 + 2 R16). Elo favourites: first 10 R32 per
+      // the note above, then ESP, POR, SUI, COL, AUS, ARG, MAR, FRA.
+      // COL 1-0 and FRA 1-0 landed exact.
+      points_scored: 29,
+      correct_outcomes: 13,
+      exact_scores: 3
     },
     {
       name: "Naive Baseline",
       description: "Always predicts 1-0 to the team listed first",
-      points_scored: 13,
-      correct_outcomes: 6,
-      exact_scores: 1
+      // 18 completed matches. COL 1-0 was the second exact hit.
+      points_scored: 22,
+      correct_outcomes: 10,
+      exact_scores: 2
     }
   ],
 
@@ -269,7 +273,7 @@ window.MATCH_DATA = {
       home: "Spain", home_code: "ESP",
       away: "Austria", away_code: "AUT",
       date: "2026-07-02",
-      status: "upcoming",
+      status: "completed",
       predicted_score: "2-1",
       top_scores: [
         { score: "2-0", prob: 0.1113 },
@@ -278,7 +282,7 @@ window.MATCH_DATA = {
       ],
       outcome_probs: { home: 0.6499, draw: 0.2011, away: 0.1490 },
       lambda: { home: 2.085, away: 0.881 },
-      actual_score: null,
+      actual_score: "3-0",
       points_earned: null
     },
     {
@@ -286,7 +290,7 @@ window.MATCH_DATA = {
       home: "Portugal", home_code: "POR",
       away: "Croatia", away_code: "CRO",
       date: "2026-07-02",
-      status: "upcoming",
+      status: "completed",
       predicted_score: "2-1",
       top_scores: [
         { score: "1-1", prob: 0.1108 },
@@ -295,7 +299,7 @@ window.MATCH_DATA = {
       ],
       outcome_probs: { home: 0.5225, draw: 0.2357, away: 0.2419 },
       lambda: { home: 1.731, away: 1.092 },
-      actual_score: null,
+      actual_score: "2-1",
       points_earned: null
     },
     {
@@ -303,7 +307,7 @@ window.MATCH_DATA = {
       home: "Switzerland", home_code: "SUI",
       away: "Algeria", away_code: "ALG",
       date: "2026-07-02",
-      status: "upcoming",
+      status: "completed",
       predicted_score: "2-1",
       top_scores: [
         { score: "1-0", prob: 0.1152 },
@@ -312,7 +316,7 @@ window.MATCH_DATA = {
       ],
       outcome_probs: { home: 0.5564, draw: 0.2356, away: 0.2081 },
       lambda: { home: 1.752, away: 0.958 },
-      actual_score: null,
+      actual_score: "2-0",
       points_earned: null
     },
     {
@@ -329,7 +333,7 @@ window.MATCH_DATA = {
       ],
       outcome_probs: { home: 0.7103, draw: 0.1787, away: 0.1110 },
       lambda: { home: 2.209, away: 0.728 },
-      actual_score: null,
+      actual_score: "1-0",
       points_earned: null
     },
     {
@@ -346,8 +350,9 @@ window.MATCH_DATA = {
       ],
       outcome_probs: { home: 0.4653, draw: 0.2516, away: 0.2832 },
       lambda: { home: 1.553, away: 1.144 },
-      actual_score: null,
-      points_earned: null
+      actual_score: "1-1",
+      points_earned: null,
+      note: "Egypt won on penalties 4-2"
     },
     {
       match_id: "R32_16",
@@ -363,6 +368,149 @@ window.MATCH_DATA = {
       ],
       outcome_probs: { home: 0.8507, draw: 0.1034, away: 0.0460 },
       lambda: { home: 2.931, away: 0.561 },
+      actual_score: "1-1",
+      points_earned: null,
+      note: "a.e.t. 3-2 — Messi 29'; Argentina won it with a late extra-time own goal"
+    },
+
+    // ------------------------------------------------------------------------
+    // ROUND OF 16 — official cross-over pairings, Jul 4-7.
+    // Predictions from predict-knockout run 2026-07-05 (N=10,000, seed 42)
+    // after a fetch-data refresh, so R32 form is baked into the lambdas.
+    // ------------------------------------------------------------------------
+    {
+      match_id: "R16_1",
+      home: "Canada", home_code: "CAN",
+      away: "Morocco", away_code: "MAR",
+      date: "2026-07-04",
+      status: "completed",
+      predicted_score: "1-2",
+      top_scores: [
+        { score: "0-1", prob: 0.1292 },
+        { score: "1-1", prob: 0.1187 },
+        { score: "0-2", prob: 0.1057 }
+      ],
+      outcome_probs: { home: 0.2132, draw: 0.2475, away: 0.5393 },
+      lambda: { home: 0.897, away: 1.587 },
+      actual_score: "0-3",
+      points_earned: null
+    },
+    {
+      match_id: "R16_2",
+      home: "Paraguay", home_code: "PRY",
+      away: "France", away_code: "FRA",
+      date: "2026-07-04",
+      status: "completed",
+      predicted_score: "1-2",
+      top_scores: [
+        { score: "0-2", prob: 0.1088 },
+        { score: "1-2", prob: 0.1017 },
+        { score: "0-1", prob: 0.0985 }
+      ],
+      outcome_probs: { home: 0.1372, draw: 0.1874, away: 0.6754 },
+      lambda: { home: 0.878, away: 2.183 },
+      actual_score: "0-1",
+      points_earned: null
+    },
+    {
+      match_id: "R16_3",
+      home: "Brazil", home_code: "BRA",
+      away: "Norway", away_code: "NOR",
+      date: "2026-07-05",
+      status: "upcoming",
+      predicted_score: "2-1",
+      top_scores: [
+        { score: "1-1", prob: 0.1201 },
+        { score: "1-0", prob: 0.1072 },
+        { score: "2-1", prob: 0.0926 }
+      ],
+      outcome_probs: { home: 0.4698, draw: 0.2560, away: 0.2742 },
+      lambda: { home: 1.561, away: 1.127 },
+      actual_score: null,
+      points_earned: null
+    },
+    {
+      match_id: "R16_4",
+      home: "Mexico", home_code: "MEX",
+      away: "England", away_code: "ENG",
+      date: "2026-07-05",
+      status: "upcoming",
+      predicted_score: "1-2",
+      top_scores: [
+        { score: "1-1", prob: 0.1214 },
+        { score: "0-1", prob: 0.1064 },
+        { score: "0-2", prob: 0.0955 }
+      ],
+      outcome_probs: { home: 0.2439, draw: 0.2474, away: 0.5087 },
+      lambda: { home: 1.064, away: 1.651 },
+      actual_score: null,
+      points_earned: null
+    },
+    {
+      match_id: "R16_5",
+      home: "Portugal", home_code: "POR",
+      away: "Spain", away_code: "ESP",
+      date: "2026-07-06",
+      status: "upcoming",
+      predicted_score: "1-2",
+      top_scores: [
+        { score: "1-1", prob: 0.1049 },
+        { score: "1-2", prob: 0.0965 },
+        { score: "0-1", prob: 0.0826 }
+      ],
+      outcome_probs: { home: 0.2710, draw: 0.2315, away: 0.4975 },
+      lambda: { home: 1.268, away: 1.797 },
+      actual_score: null,
+      points_earned: null
+    },
+    {
+      match_id: "R16_6",
+      home: "United States", home_code: "USA",
+      away: "Belgium", away_code: "BEL",
+      date: "2026-07-06",
+      status: "upcoming",
+      predicted_score: "1-1",
+      top_scores: [
+        { score: "1-1", prob: 0.1260 },
+        { score: "0-1", prob: 0.0982 },
+        { score: "1-2", prob: 0.0913 }
+      ],
+      outcome_probs: { home: 0.3221, draw: 0.2621, away: 0.4158 },
+      lambda: { home: 1.215, away: 1.436 },
+      actual_score: null,
+      points_earned: null
+    },
+    {
+      match_id: "R16_7",
+      home: "Argentina", home_code: "ARG",
+      away: "Egypt", away_code: "EGY",
+      date: "2026-07-07",
+      status: "upcoming",
+      predicted_score: "3-1",
+      top_scores: [
+        { score: "2-0", prob: 0.1218 },
+        { score: "3-0", prob: 0.1198 },
+        { score: "4-0", prob: 0.0868 }
+      ],
+      outcome_probs: { home: 0.8349, draw: 0.1098, away: 0.0553 },
+      lambda: { home: 2.885, away: 0.631 },
+      actual_score: null,
+      points_earned: null
+    },
+    {
+      match_id: "R16_8",
+      home: "Switzerland", home_code: "SUI",
+      away: "Colombia", away_code: "COL",
+      date: "2026-07-07",
+      status: "upcoming",
+      predicted_score: "1-1",
+      top_scores: [
+        { score: "1-1", prob: 0.1260 },
+        { score: "0-1", prob: 0.1143 },
+        { score: "1-2", prob: 0.0941 }
+      ],
+      outcome_probs: { home: 0.2777, draw: 0.2629, away: 0.4594 },
+      lambda: { home: 1.089, away: 1.472 },
       actual_score: null,
       points_earned: null
     }
