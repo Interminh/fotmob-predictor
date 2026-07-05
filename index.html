@@ -248,6 +248,7 @@
 
   .detail-inner { padding-top: 0.85rem; }
   .card .bar { background: var(--cream-2); height: 7px; }
+  .card .bar span { width: var(--w); }
   .card .bar .l { background: var(--sage-2); }
   .card .bar-labels { color: var(--sage); }
 
@@ -278,6 +279,38 @@
     .flap { width: 2.7rem; height: 3.5rem; font-size: 2.2rem; }
     .hero { padding: 1.75rem 1.25rem 1.5rem; }
   }
+
+  /* ---------- Animation layer (only when body.anim, i.e. motion allowed) ---------- */
+  .board { perspective: 400px; }
+  .flap { will-change: transform; }
+  .flap.spin { animation: flapSpin 0.16s linear infinite; }
+  .flap.land { animation: flapLand 0.3s cubic-bezier(0.2, 0.7, 0.3, 1.2); }
+  @keyframes flapSpin {
+    0%   { transform: rotateX(0); }
+    50%  { transform: rotateX(-64deg); filter: brightness(0.8); }
+    100% { transform: rotateX(0); }
+  }
+  @keyframes flapLand {
+    from { transform: rotateX(-88deg); }
+    to   { transform: rotateX(0); }
+  }
+
+  body.anim .hero { animation: heroIn 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+  body.anim .hero .bar span { transition: width 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.5s; }
+
+  body.anim .card:not(.in) { opacity: 0; }
+  body.anim .card.in { animation: rise 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  body.anim .card .bar span { width: 0; transition: width 0.6s cubic-bezier(0.2, 0.7, 0.3, 1); }
+  body.anim .card:hover .bar span, body.anim .card:focus-within .bar span { width: var(--w); }
 </style>
 </head>
 <body>
@@ -407,9 +440,9 @@
         '</div>' +
         '<div class="card-detail"><div class="detail-inner">' +
           '<div class="bar">' +
-            '<span class="w" style="width:' + (op.home * 100) + '%"></span>' +
-            '<span class="d" style="width:' + (op.draw * 100) + '%"></span>' +
-            '<span class="l" style="width:' + (op.away * 100) + '%"></span>' +
+            '<span class="w" style="--w:' + (op.home * 100) + '%"></span>' +
+            '<span class="d" style="--w:' + (op.draw * 100) + '%"></span>' +
+            '<span class="l" style="--w:' + (op.away * 100) + '%"></span>' +
           '</div>' +
           '<div class="bar-labels">' +
             '<span>' + m.home_code + ' ' + Math.round(op.home * 100) + '%</span>' +
@@ -449,6 +482,51 @@
     '<div>' + totalPoints + ' pts &middot; ' + outcomes + '/' + completed.length +
     ' outcomes &middot; ' + exacts + ' exact</div>' +
     '<div class="mono">' + DATA.meta.model_name + ' &middot; updated ' + DATA.meta.last_updated + '</div>';
+
+  // ---- Animation layer (skipped entirely under prefers-reduced-motion) ----
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+  document.body.classList.add('anim');
+
+  // Split-flap: each hero digit spins through random digits, then lands,
+  // staggered left to right like a departure board.
+  document.querySelectorAll('.flap').forEach(function (el, i) {
+    var finalDigit = el.getAttribute('data-digit');
+    var duration = 600 + i * 260;
+    el.classList.add('spin');
+    var iv = setInterval(function () {
+      el.textContent = Math.floor(Math.random() * 10);
+    }, 80);
+    setTimeout(function () {
+      clearInterval(iv);
+      el.classList.remove('spin');
+      el.textContent = finalDigit;
+      el.classList.add('land');
+    }, duration);
+  });
+
+  // Hero probability bar fills in after the flip settles.
+  var heroSpans = document.querySelectorAll('.hero .bar span');
+  heroSpans.forEach(function (el) { el.style.width = '0%'; });
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      heroSpans.forEach(function (el) { el.style.width = el.getAttribute('data-w') + '%'; });
+    });
+  });
+
+  // Cards rise in on scroll; delay is per visible batch so late rows
+  // don't inherit a huge global stagger.
+  var observer = new IntersectionObserver(function (entries) {
+    var j = 0;
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.style.animationDelay = (j * 70) + 'ms';
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
+      j++;
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+  document.querySelectorAll('.card').forEach(function (el) { observer.observe(el); });
 })();
 </script>
 </body>
