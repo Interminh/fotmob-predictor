@@ -172,26 +172,26 @@
     {"match_id": "R32_8",  "home": "ENG", "away": "COD", "date": "2026-07-01", "neutral_venue": true, "status": "completed", "final_score": {"home": 2, "away": 1}},
     {"match_id": "R32_9",  "home": "BEL", "away": "SEN", "date": "2026-07-01", "neutral_venue": true, "status": "completed", "final_score": {"home": 3, "away": 2}},
     {"match_id": "R32_10", "home": "USA", "away": "BIH", "date": "2026-07-01", "neutral_venue": true, "status": "completed", "final_score": {"home": 2, "away": 0}},
-    {"match_id": "R32_11", "home": "ESP", "away": "AUT", "date": "2026-07-02", "neutral_venue": true},
-    {"match_id": "R32_12", "home": "POR", "away": "CRO", "date": "2026-07-02", "neutral_venue": true},
-    {"match_id": "R32_13", "home": "SUI", "away": "ALG", "date": "2026-07-02", "neutral_venue": true},
-    {"match_id": "R32_14", "home": "COL", "away": "GHA", "date": "2026-07-03", "neutral_venue": true},
-    {"match_id": "R32_15", "home": "AUS", "away": "EGY", "date": "2026-07-03", "neutral_venue": true},
-    {"match_id": "R32_16", "home": "ARG", "away": "CPV", "date": "2026-07-03", "neutral_venue": true}
+    {"match_id": "R32_11", "home": "ESP", "away": "AUT", "date": "2026-07-02", "neutral_venue": true, "status": "completed", "final_score": {"home": 3, "away": 0}},
+    {"match_id": "R32_12", "home": "POR", "away": "CRO", "date": "2026-07-02", "neutral_venue": true, "status": "completed", "final_score": {"home": 2, "away": 1}},
+    {"match_id": "R32_13", "home": "SUI", "away": "ALG", "date": "2026-07-02", "neutral_venue": true, "status": "completed", "final_score": {"home": 2, "away": 0}},
+    {"match_id": "R32_14", "home": "COL", "away": "GHA", "date": "2026-07-03", "neutral_venue": true, "status": "completed", "final_score": {"home": 1, "away": 0}},
+    {"match_id": "R32_15", "home": "AUS", "away": "EGY", "date": "2026-07-03", "neutral_venue": true, "status": "completed", "final_score": {"home": 2, "away": 4}},
+    {"match_id": "R32_16", "home": "ARG", "away": "CPV", "date": "2026-07-03", "neutral_venue": true, "status": "completed", "final_score": {"home": 3, "away": 2}}
   ]
 },
     {
       "stage_name": "Round of 16",
       "type": "knockout",
       "matches": [
-        {"match_id": "R16_1", "home": "TBD_R32_W1",  "away": "TBD_R32_W2",  "date": "2026-07-14", "neutral_venue": true, "depends_on": ["R32_1_winner", "R32_2_winner"]},
-        {"match_id": "R16_2", "home": "TBD_R32_W3",  "away": "TBD_R32_W4",  "date": "2026-07-14", "neutral_venue": true, "depends_on": ["R32_3_winner", "R32_4_winner"]},
-        {"match_id": "R16_3", "home": "TBD_R32_W5",  "away": "TBD_R32_W6",  "date": "2026-07-15", "neutral_venue": true, "depends_on": ["R32_5_winner", "R32_6_winner"]},
-        {"match_id": "R16_4", "home": "TBD_R32_W7",  "away": "TBD_R32_W8",  "date": "2026-07-15", "neutral_venue": true, "depends_on": ["R32_7_winner", "R32_8_winner"]},
-        {"match_id": "R16_5", "home": "TBD_R32_W9",  "away": "TBD_R32_W10", "date": "2026-07-16", "neutral_venue": true, "depends_on": ["R32_9_winner", "R32_10_winner"]},
-        {"match_id": "R16_6", "home": "TBD_R32_W11", "away": "TBD_R32_W12", "date": "2026-07-16", "neutral_venue": true, "depends_on": ["R32_11_winner", "R32_12_winner"]},
-        {"match_id": "R16_7", "home": "TBD_R32_W13", "away": "TBD_R32_W14", "date": "2026-07-17", "neutral_venue": true, "depends_on": ["R32_13_winner", "R32_14_winner"]},
-        {"match_id": "R16_8", "home": "TBD_R32_W15", "away": "TBD_R32_W16", "date": "2026-07-17", "neutral_venue": true, "depends_on": ["R32_15_winner", "R32_16_winner"]}
+        {"match_id": "R16_1", "home": "CAN", "away": "MAR", "date": "2026-07-04", "neutral_venue": true, "depends_on": ["R32_1_winner", "R32_4_winner"]},
+        {"match_id": "R16_2", "home": "PRY", "away": "FRA", "date": "2026-07-04", "neutral_venue": true, "depends_on": ["R32_3_winner", "R32_6_winner"]},
+        {"match_id": "R16_3", "home": "BRA", "away": "NOR", "date": "2026-07-05", "neutral_venue": true, "depends_on": ["R32_2_winner", "R32_5_winner"]},
+        {"match_id": "R16_4", "home": "MEX", "away": "ENG", "date": "2026-07-05", "neutral_venue": true, "depends_on": ["R32_7_winner", "R32_8_winner"]},
+        {"match_id": "R16_5", "home": "POR", "away": "ESP", "date": "2026-07-06", "neutral_venue": true, "depends_on": ["R32_12_winner", "R32_11_winner"]},
+        {"match_id": "R16_6", "home": "USA", "away": "BEL", "date": "2026-07-06", "neutral_venue": true, "depends_on": ["R32_10_winner", "R32_9_winner"]},
+        {"match_id": "R16_7", "home": "ARG", "away": "EGY", "date": "2026-07-07", "neutral_venue": true, "depends_on": ["R32_16_winner", "R32_15_winner"]},
+        {"match_id": "R16_8", "home": "SUI", "away": "COL", "date": "2026-07-07", "neutral_venue": true, "depends_on": ["R32_13_winner", "R32_14_winner"]}
       ]
     },
     {
