@@ -1,93 +1,61 @@
-=== ROUND OF 32 FINAL RESULTS (Jul 2-3 matches, real) ===
+=== ROUND OF 16 FINAL RESULTS (Jul 4-7 matches, real) ===
 
-Spain 3-0 Austria                                        — Spain advance
-Portugal 2-1 Croatia                                     — Portugal advance
-Switzerland 2-0 Algeria                                  — Switzerland advance
-Colombia 1-0 Ghana                                       — Colombia advance
-Australia 1-1 Egypt (pens 2-4)                           — Egypt advance
-Argentina 3-2 Cape Verde (a.e.t., 1-1 after 90')         — Argentina advance
-  (Messi 29', Duarte level 2nd half; ET: L. Martinez, Lopes Cabral 103', late OG winner)
+Canada 0-3 Morocco                                       — Morocco advance
+Paraguay 0-1 France                                      — France advance
+Brazil 0-2 Norway                                        — Norway advance (Brazil, pre-tournament favourite, eliminated)
+Mexico 2-3 England                                       — England advance
+Portugal 0-1 Spain                                       — Spain advance
+United States 1-4 Belgium                                — Belgium advance
+Argentina 3-2 Egypt                                      — Argentina advance (Messi-led late comeback)
+Switzerland 0-0 Colombia (pens 4-3)                       — Switzerland advance
 
-Model went 6/6 on advancement for these matches. Exact scores: Spain 3-0 missed (predicted 2-1),
-Portugal 2-1 EXACT, Switzerland 2-0 missed (2-1), Colombia 1-0 missed (2-1),
-Australia-Egypt missed (predicted 2-1 home), Argentina missed (3-1, actual 1-1 at 90').
+Model went 7/8 on advancement for these matches — missed Brazil (predicted Brazil to beat
+Norway) and also missed Switzerland vs Colombia's outcome lean (had Colombia favoured 60%,
+Switzerland won on pens). Exact scores: none landed this round.
 
 
-=== ROUND OF 16 PREDICTIONS ===
-(Lambdas refreshed via fetch-data on 2026-07-05, so R32 form is included.
-Predicted Score = round(lambda_home), round(lambda_away). Real bracket pairings
-from the official R16 draw — note they cross over, e.g. Canada got Morocco, not Brazil.)
+=== QUARTER-FINAL PREDICTIONS ===
+(Lambdas refreshed via fetch-data on 2026-07-08, so all R16 results are baked in as completed
+matches. Predicted Score = round(lambda_home), round(lambda_away). Real bracket pairings from
+the official QF draw.)
 
-Canada vs Morocco  (Jul 4)  (lam_home=0.8966, lam_away=1.5866, N=10,000)
-* Predicted Score: 1-2
-Outcome:  Home 21% | Draw 25% | Away 54%
-Knockout: drawn after 90' 24.8% | drawn after 120' 12.8%
-Advances: Canada 32% | Morocco 68%
->> RESULT: Canada 0-3 Morocco — correct outcome, +2 pts
-
-Paraguay vs France  (Jul 4)  (lam_home=0.8783, lam_away=2.1829, N=10,000)
-* Predicted Score: 1-2
-Outcome:  Home 14% | Draw 19% | Away 68%
-Knockout: drawn after 90' 18.7% | drawn after 120' 8.4%
-Advances: Paraguay 20% | France 80%
->> RESULT: Paraguay 0-1 France — correct outcome, +2 pts
-
-Brazil vs Norway  (Jul 5)  (lam_home=1.5614, lam_away=1.127, N=10,000)
+France vs Morocco  (Jul 9)  (lam_home=1.6114, lam_away=0.9626, N=10,000)
 * Predicted Score: 2-1
-Outcome:  Home 47% | Draw 26% | Away 27%
-Knockout: drawn after 90' 25.6% | drawn after 120' 13.1%
-Advances: Brazil 61% | Norway 39%
+Outcome:  Home 53% | Draw 25% | Away 22%
+Knockout: drawn after 90' 25.0% | drawn after 120' 12.5%
+Advances: France 67% | Morocco 33%
 
-Mexico vs England  (Jul 5)  (lam_home=1.0641, lam_away=1.6506, N=10,000)
+Norway vs England  (Jul 11)  (lam_home=1.2221, lam_away=1.5032, N=10,000)
 * Predicted Score: 1-2
-Outcome:  Home 24% | Draw 25% | Away 51%
-Knockout: drawn after 90' 24.7% | drawn after 120' 12.4%
-Advances: Mexico 35% | England 65%
+Outcome:  Home 31% | Draw 25% | Away 44%
+Knockout: drawn after 90' 25.0% | drawn after 120' 12.1%
+Advances: Norway 42% | England 58%
 
-Portugal vs Spain  (Jul 6)  (lam_home=1.2676, lam_away=1.7967, N=10,000)
-* Predicted Score: 1-2
-Outcome:  Home 27% | Draw 23% | Away 50%
-Knockout: drawn after 90' 23.2% | drawn after 120' 10.6%
-Advances: Portugal 37% | Spain 63%
+Spain vs Belgium  (Jul 10)  (lam_home=1.9787, lam_away=0.8993, N=10,000)
+* Predicted Score: 2-1
+Outcome:  Home 62% | Draw 21% | Away 17%
+Knockout: drawn after 90' 20.7% | drawn after 120' 9.8%
+Advances: Spain 75% | Belgium 25%
 
-United States vs Belgium  (Jul 6)  (lam_home=1.2145, lam_away=1.4361, N=10,000)
-* Predicted Score: 1-1  (tossup — Belgium edge on advancement)
-Outcome:  Home 32% | Draw 26% | Away 42%
-Knockout: drawn after 90' 26.2% | drawn after 120' 13.1%
-Advances: United States 44% | Belgium 56%
-
-Argentina vs Egypt  (Jul 7)  (lam_home=2.8847, lam_away=0.6308, N=10,000)
-* Predicted Score: 3-1
-Outcome:  Home 83% | Draw 11% | Away 6%
-Knockout: drawn after 90' 11.0% | drawn after 120' 4.2%
-Advances: Argentina 92% | Egypt 8%
-
-Switzerland vs Colombia  (Jul 7)  (lam_home=1.0886, lam_away=1.4717, N=10,000)
-* Predicted Score: 1-1  (Colombia edge on advancement)
-Outcome:  Home 28% | Draw 26% | Away 46%
-Knockout: drawn after 90' 26.3% | drawn after 120' 13.5%
-Advances: Switzerland 40% | Colombia 60%
+Argentina vs Switzerland  (Jul 11)  (lam_home=2.0664, lam_away=0.7852, N=10,000)
+* Predicted Score: 2-1
+Outcome:  Home 68% | Draw 20% | Away 13%
+Knockout: drawn after 90' 19.6% | drawn after 120' 9.5%
+Advances: Argentina 80% | Switzerland 20%
 
 
-=== BRACKET SIMULATION (from Round of 16, 10,000 trials, seed 42) ===
+=== BRACKET SIMULATION (from Quarter-finals, 100,000 trials) ===
 
-  Team            R16 win   QF      SF      Final
-  Argentina        92.1%   70.0%   45.2%   30.6%
-  France           79.1%   57.1%   35.7%   17.3%
-  Spain            62.7%   48.8%   26.0%   16.6%
-  Brazil           61.1%   36.2%   19.1%    8.2%
-  England          65.3%   33.0%   16.1%    6.1%
-  Portugal         37.3%   25.9%   10.3%    5.4%
-  Colombia         60.2%   18.8%    8.1%    4.0%
-  Morocco          68.3%   26.9%   12.2%    3.6%
-  Norway           38.9%   18.5%    8.0%    2.7%
-  Belgium          56.0%   15.1%    4.5%    1.6%
-  Switzerland      39.8%    9.3%    3.1%    1.2%
-  Mexico           34.7%   12.2%    4.5%    1.1%
-  United States    44.0%   10.1%    2.4%    0.7%
-  Canada           31.7%    7.2%    1.8%    0.4%
-  Paraguay         20.9%    8.8%    2.6%    0.4%
-  Egypt             7.9%    1.9%    0.4%    0.1%
+  Team            QF win   SF      3rd     Final
+  Argentina        79.9%   48.6%   21.9%   32.6%
+  Spain             75.9%   39.0%   24.2%   24.6%
+  France             67.4%   43.2%   12.6%   19.9%
+  England            57.4%   25.8%   13.3%    9.1%
+  Norway              42.6%   16.4%    9.4%    4.9%
+  Morocco            32.6%   14.7%    6.5%    4.5%
+  Belgium            24.1%    6.4%    6.8%    2.3%
+  Switzerland        20.1%    5.9%    5.3%    2.0%
 
-Quarter-final pairings if picks hold: Morocco-France, Brazil-England,
-Spain-Belgium, Argentina-Colombia.
+Semi-final pairings if picks hold: France-England, Spain-Argentina.
+Argentina remains the model's favourite to win the tournament (32.6%), with Spain close
+behind (24.6%) after Portugal's elimination cleared their side of the bracket.
