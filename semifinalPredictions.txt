@@ -116,3 +116,30 @@ its 23.7% blended number barely moves. This blend is a straightforward equal-wei
 not a re-fit of the underlying engine — it treats the market line as a second, independent
 signal worth trusting about as much as the statistical model, given the model doesn't see
 injuries, fatigue, or squad news directly.
+
+
+=== PREDICTED SCORES AFTER 90 MINUTES (blended with real 90-min match odds) ===
+(Real regulation-time 3-way lines: France +130 / Draw +220 / Spain +230 (FanDuel), England
++155 / Draw +200 / Argentina +205 (DraftKings). Devigged, then averaged 50/50 with our
+model's Home/Draw/Away split. New lambdas were fit to reproduce the blended Home/Draw/Away
+split, and the predicted score is round(lambda_home), round(lambda_away) same as before.)
+
+France vs Spain  (Jul 14, Dallas)
+  Our model:  Home 38% | Draw 25% | Away 36%   (lam 1.40 / 1.36)
+  Market:     Home 41% | Draw 30% | Away 29%
+  Blended:    Home 40% | Draw 27% | Away 33%   (lam 1.27 / 1.12)
+  * Predicted Score after 90': 1-1
+
+England vs Argentina  (Jul 15, Atlanta)
+  Our model:  Home 22% | Draw 22% | Away 56%   (lam 1.16 / 1.95)
+  Market:     Home 37% | Draw 32% | Away 31%
+  Blended:    Home 30% | Draw 27% | Away 44%   (lam 1.09 / 1.38)
+  * Predicted Score after 90': 1-1
+
+Both semifinals blend out to a 1-1 scoreline through 90 minutes — the market is pricing a
+much higher chance of a draw in regulation than our model alone did (particularly England
+vs Argentina, where the books have this closer to a pick'em than our engine's 56% Argentina
+number suggested). Once you fold the market in, both semifinals look like real extra-time
+candidates rather than matches likely to be settled in 90. Argentina and France remain the
+sides with the score edge if it does get decided in regulation — Argentina lam_away 1.38 vs
+England's 1.09, and France lam_home 1.27 vs Spain's 1.12 — but neither margin is comfortable.
