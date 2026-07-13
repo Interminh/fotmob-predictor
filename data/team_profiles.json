@@ -15,42 +15,42 @@
       "name": "Argentina",
       "confederation": "CONMEBOL",
       "fifa_ranking": 1,
-      "elo_rating": 2148,
+      "elo_rating": 2177,
       "recent_form": {
-        "goals_scored_last_10": 21,
-        "goals_conceded_last_10": 5,
+        "goals_scored_last_10": 21.9,
+        "goals_conceded_last_10": 5.5,
         "matches_played": 10
       },
-      "attack_strength": 1.56,
-      "defense_strength": 0.58,
+      "attack_strength": 1.6269,
+      "defense_strength": 0.638,
       "is_host_nation": false
     },
     "FRA": {
       "name": "France",
       "confederation": "UEFA",
       "fifa_ranking": 2,
-      "elo_rating": 2123,
+      "elo_rating": 2163,
       "recent_form": {
-        "goals_scored_last_10": 19,
-        "goals_conceded_last_10": 7,
+        "goals_scored_last_10": 19.1,
+        "goals_conceded_last_10": 6.3,
         "matches_played": 10
       },
-      "attack_strength": 1.41,
-      "defense_strength": 0.67,
+      "attack_strength": 1.4174,
+      "defense_strength": 0.603,
       "is_host_nation": false
     },
     "ENG": {
       "name": "England",
       "confederation": "UEFA",
       "fifa_ranking": 4,
-      "elo_rating": 2038,
+      "elo_rating": 2097,
       "recent_form": {
-        "goals_scored_last_10": 17,
-        "goals_conceded_last_10": 8,
+        "goals_scored_last_10": 17.3,
+        "goals_conceded_last_10": 8.2,
         "matches_played": 10
       },
-      "attack_strength": 1.26,
-      "defense_strength": 0.74,
+      "attack_strength": 1.2822,
+      "defense_strength": 0.7585,
       "is_host_nation": false
     },
     "BRA": {
@@ -71,14 +71,14 @@
       "name": "Spain",
       "confederation": "UEFA",
       "fifa_ranking": 3,
-      "elo_rating": 2144,
+      "elo_rating": 2190,
       "recent_form": {
-        "goals_scored_last_10": 20,
-        "goals_conceded_last_10": 6,
+        "goals_scored_last_10": 20.0,
+        "goals_conceded_last_10": 6.4,
         "matches_played": 10
       },
       "attack_strength": 1.48,
-      "defense_strength": 0.63,
+      "defense_strength": 0.672,
       "is_host_nation": false
     },
     "GER": {
