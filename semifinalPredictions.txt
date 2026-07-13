@@ -85,3 +85,34 @@ after two straight extra-time matches, Messi's minutes and age, and France's att
 (Mbappe/Dembele) reading as a step above the rest of the field. Worth treating our number as
 "path-adjusted" rather than a full replacement for the market consensus — France should be
 rated as at least a co-favourite alongside Argentina until proven otherwise on the pitch.
+
+
+=== BLENDED PREDICTIONS (our model + market, 50/50 weighted) ===
+(Semifinal-specific market lines: France -148 / Spain +120, England -132 / Argentina +108,
+devigged then averaged with our model's match probabilities. Same 50/50 average applied to
+each team's devigged "win it all" number.)
+
+France vs Spain  (Jul 14, Dallas)
+  Our model: France 51% / Spain 49%
+  Market:    France 57% / Spain 43%
+  Blended:   France 54% / Spain 46%
+
+England vs Argentina  (Jul 15, Atlanta)
+  Our model: England 31% / Argentina 69%
+  Market:    England 54% / Argentina 46%
+  Blended:   England 43% / Argentina 57%
+
+  Team          Model    Market   Blended (win it all)
+  France        26.6%    36.7%         31.7%
+  Argentina     37.1%    20.0%         28.6%
+  Spain         25.0%    22.4%         23.7%
+  England       11.3%    20.9%         16.1%
+
+Blending narrows the gap between our model and the market considerably. France edges ahead
+of Argentina as the blended favourite (31.7% vs 28.6%), and England's blended semifinal
+chances move from a clear underdog (31%) to close to a coin flip (43%) once market info on
+fitness/fatigue is folded in. Spain stays roughly a quarter-favourite across both views, so
+its 23.7% blended number barely moves. This blend is a straightforward equal-weight average,
+not a re-fit of the underlying engine — it treats the market line as a second, independent
+signal worth trusting about as much as the statistical model, given the model doesn't see
+injuries, fatigue, or squad news directly.
