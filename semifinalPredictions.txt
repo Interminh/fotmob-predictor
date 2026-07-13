@@ -60,3 +60,28 @@ has narrowed to single digits rather than the ~8-13pt cushion Argentina held aft
 16. The France-Spain semi is essentially a coin flip (51/49), and whichever of them wins should
 be considered live to beat Argentina in the final — the model no longer sees Argentina as a
 clear-favourite lock the way it did after the group stage.
+
+
+=== MODEL vs. MARKET (sportsbook odds, 2026-07-13) ===
+
+Real championship-odds line: France +150, Spain +310, England +340, Argentina +360.
+Devigged to fair probabilities (overround ~8.9%):
+
+  Team          Model (win it all)   Market (devigged)
+  France              26.6%               36.7%
+  Spain               25.0%               22.4%
+  England             11.3%               20.9%
+  Argentina           37.1%               20.0%
+
+The market has this almost inverted from our model: bookmakers make France the clear
+favourite and see Argentina and England as near-equal underdogs in the low 20s, while our
+engine still has Argentina on top and England well back at 11%.
+
+Why the gap: our engine mostly runs on Elo + recent scoring/conceding form, so Argentina's
+easier remaining path (they only have to get past whichever of England/them wins one match,
+never having to face France or Spain in the semis) shows up as a big edge in the bracket sim.
+The market is pricing in things this model doesn't carry directly — squad fitness/fatigue
+after two straight extra-time matches, Messi's minutes and age, and France's attacking form
+(Mbappe/Dembele) reading as a step above the rest of the field. Worth treating our number as
+"path-adjusted" rather than a full replacement for the market consensus — France should be
+rated as at least a co-favourite alongside Argentina until proven otherwise on the pitch.
