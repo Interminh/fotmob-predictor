@@ -1,0 +1,83 @@
+{
+  "tournament": "2022 FIFA World Cup",
+  "host_nations": ["QAT"],
+  "note": "home/away for group matches is arbitrary (all venues neutral except Qatar's own matches, which are marked neutral_venue=false so the host-advantage multiplier applies). Scores are the 90-minute (regulation) result; knockout matches that needed extra time or penalties also carry decided_in/pens_winner/final_score.",
+  "matches": [
+    {"match_id": "GA_1", "stage": "Group A", "home": "QAT", "away": "ECU", "neutral_venue": false, "home_score_90": 0, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GA_2", "stage": "Group A", "home": "SEN", "away": "NED", "neutral_venue": true, "home_score_90": 0, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GA_3", "stage": "Group A", "home": "QAT", "away": "SEN", "neutral_venue": false, "home_score_90": 1, "away_score_90": 3, "decided_in": "regulation"},
+    {"match_id": "GA_4", "stage": "Group A", "home": "NED", "away": "ECU", "neutral_venue": true, "home_score_90": 1, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "GA_5", "stage": "Group A", "home": "ECU", "away": "SEN", "neutral_venue": true, "home_score_90": 1, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GA_6", "stage": "Group A", "home": "QAT", "away": "NED", "neutral_venue": false, "home_score_90": 0, "away_score_90": 2, "decided_in": "regulation"},
+
+    {"match_id": "GB_1", "stage": "Group B", "home": "ENG", "away": "IRN", "neutral_venue": true, "home_score_90": 6, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GB_2", "stage": "Group B", "home": "USA", "away": "WAL", "neutral_venue": true, "home_score_90": 1, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "GB_3", "stage": "Group B", "home": "WAL", "away": "IRN", "neutral_venue": true, "home_score_90": 0, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GB_4", "stage": "Group B", "home": "ENG", "away": "USA", "neutral_venue": true, "home_score_90": 0, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GB_5", "stage": "Group B", "home": "WAL", "away": "ENG", "neutral_venue": true, "home_score_90": 0, "away_score_90": 3, "decided_in": "regulation"},
+    {"match_id": "GB_6", "stage": "Group B", "home": "IRN", "away": "USA", "neutral_venue": true, "home_score_90": 0, "away_score_90": 1, "decided_in": "regulation"},
+
+    {"match_id": "GC_1", "stage": "Group C", "home": "ARG", "away": "KSA", "neutral_venue": true, "home_score_90": 1, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GC_2", "stage": "Group C", "home": "MEX", "away": "POL", "neutral_venue": true, "home_score_90": 0, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GC_3", "stage": "Group C", "home": "POL", "away": "KSA", "neutral_venue": true, "home_score_90": 2, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GC_4", "stage": "Group C", "home": "ARG", "away": "MEX", "neutral_venue": true, "home_score_90": 2, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GC_5", "stage": "Group C", "home": "POL", "away": "ARG", "neutral_venue": true, "home_score_90": 0, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GC_6", "stage": "Group C", "home": "KSA", "away": "MEX", "neutral_venue": true, "home_score_90": 1, "away_score_90": 2, "decided_in": "regulation"},
+
+    {"match_id": "GD_1", "stage": "Group D", "home": "DEN", "away": "TUN", "neutral_venue": true, "home_score_90": 0, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GD_2", "stage": "Group D", "home": "FRA", "away": "AUS", "neutral_venue": true, "home_score_90": 4, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "GD_3", "stage": "Group D", "home": "TUN", "away": "AUS", "neutral_venue": true, "home_score_90": 0, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "GD_4", "stage": "Group D", "home": "FRA", "away": "DEN", "neutral_venue": true, "home_score_90": 2, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "GD_5", "stage": "Group D", "home": "AUS", "away": "DEN", "neutral_venue": true, "home_score_90": 1, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GD_6", "stage": "Group D", "home": "TUN", "away": "FRA", "neutral_venue": true, "home_score_90": 1, "away_score_90": 0, "decided_in": "regulation"},
+
+    {"match_id": "GE_1", "stage": "Group E", "home": "GER", "away": "JPN", "neutral_venue": true, "home_score_90": 1, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GE_2", "stage": "Group E", "home": "ESP", "away": "CRC", "neutral_venue": true, "home_score_90": 7, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GE_3", "stage": "Group E", "home": "JPN", "away": "CRC", "neutral_venue": true, "home_score_90": 0, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "GE_4", "stage": "Group E", "home": "ESP", "away": "GER", "neutral_venue": true, "home_score_90": 1, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "GE_5", "stage": "Group E", "home": "JPN", "away": "ESP", "neutral_venue": true, "home_score_90": 2, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "GE_6", "stage": "Group E", "home": "CRC", "away": "GER", "neutral_venue": true, "home_score_90": 2, "away_score_90": 4, "decided_in": "regulation"},
+
+    {"match_id": "GF_1", "stage": "Group F", "home": "MAR", "away": "CRO", "neutral_venue": true, "home_score_90": 0, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GF_2", "stage": "Group F", "home": "BEL", "away": "CAN", "neutral_venue": true, "home_score_90": 1, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GF_3", "stage": "Group F", "home": "BEL", "away": "MAR", "neutral_venue": true, "home_score_90": 0, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GF_4", "stage": "Group F", "home": "CRO", "away": "CAN", "neutral_venue": true, "home_score_90": 4, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "GF_5", "stage": "Group F", "home": "CRO", "away": "BEL", "neutral_venue": true, "home_score_90": 0, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GF_6", "stage": "Group F", "home": "CAN", "away": "MAR", "neutral_venue": true, "home_score_90": 1, "away_score_90": 2, "decided_in": "regulation"},
+
+    {"match_id": "GG_1", "stage": "Group G", "home": "SUI", "away": "CMR", "neutral_venue": true, "home_score_90": 1, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GG_2", "stage": "Group G", "home": "BRA", "away": "SRB", "neutral_venue": true, "home_score_90": 2, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GG_3", "stage": "Group G", "home": "CMR", "away": "SRB", "neutral_venue": true, "home_score_90": 3, "away_score_90": 3, "decided_in": "regulation"},
+    {"match_id": "GG_4", "stage": "Group G", "home": "BRA", "away": "SUI", "neutral_venue": true, "home_score_90": 1, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GG_5", "stage": "Group G", "home": "SRB", "away": "SUI", "neutral_venue": true, "home_score_90": 2, "away_score_90": 3, "decided_in": "regulation"},
+    {"match_id": "GG_6", "stage": "Group G", "home": "CMR", "away": "BRA", "neutral_venue": true, "home_score_90": 1, "away_score_90": 0, "decided_in": "regulation"},
+
+    {"match_id": "GH_1", "stage": "Group H", "home": "URU", "away": "KOR", "neutral_venue": true, "home_score_90": 0, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GH_2", "stage": "Group H", "home": "POR", "away": "GHA", "neutral_venue": true, "home_score_90": 3, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GH_3", "stage": "Group H", "home": "KOR", "away": "GHA", "neutral_venue": true, "home_score_90": 2, "away_score_90": 3, "decided_in": "regulation"},
+    {"match_id": "GH_4", "stage": "Group H", "home": "POR", "away": "URU", "neutral_venue": true, "home_score_90": 2, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "GH_5", "stage": "Group H", "home": "GHA", "away": "URU", "neutral_venue": true, "home_score_90": 0, "away_score_90": 2, "decided_in": "regulation"},
+    {"match_id": "GH_6", "stage": "Group H", "home": "KOR", "away": "POR", "neutral_venue": true, "home_score_90": 2, "away_score_90": 1, "decided_in": "regulation"},
+
+    {"match_id": "R16_1", "stage": "Round of 16", "home": "NED", "away": "USA", "neutral_venue": true, "home_score_90": 3, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "R16_2", "stage": "Round of 16", "home": "ARG", "away": "AUS", "neutral_venue": true, "home_score_90": 2, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "R16_3", "stage": "Round of 16", "home": "FRA", "away": "POL", "neutral_venue": true, "home_score_90": 3, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "R16_4", "stage": "Round of 16", "home": "ENG", "away": "SEN", "neutral_venue": true, "home_score_90": 3, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "R16_5", "stage": "Round of 16", "home": "JPN", "away": "CRO", "neutral_venue": true, "home_score_90": 1, "away_score_90": 1, "decided_in": "penalties", "pens_winner": "CRO"},
+    {"match_id": "R16_6", "stage": "Round of 16", "home": "BRA", "away": "KOR", "neutral_venue": true, "home_score_90": 4, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "R16_7", "stage": "Round of 16", "home": "MAR", "away": "ESP", "neutral_venue": true, "home_score_90": 0, "away_score_90": 0, "decided_in": "penalties", "pens_winner": "MAR"},
+    {"match_id": "R16_8", "stage": "Round of 16", "home": "POR", "away": "SUI", "neutral_venue": true, "home_score_90": 6, "away_score_90": 1, "decided_in": "regulation"},
+
+    {"match_id": "QF_1", "stage": "Quarterfinal", "home": "CRO", "away": "BRA", "neutral_venue": true, "home_score_90": 0, "away_score_90": 0, "decided_in": "penalties", "pens_winner": "CRO"},
+    {"match_id": "QF_2", "stage": "Quarterfinal", "home": "NED", "away": "ARG", "neutral_venue": true, "home_score_90": 2, "away_score_90": 2, "decided_in": "extra_time", "et_winner": "ARG"},
+    {"match_id": "QF_3", "stage": "Quarterfinal", "home": "MAR", "away": "POR", "neutral_venue": true, "home_score_90": 0, "away_score_90": 1, "decided_in": "regulation"},
+    {"match_id": "QF_4", "stage": "Quarterfinal", "home": "ENG", "away": "FRA", "neutral_venue": true, "home_score_90": 1, "away_score_90": 2, "decided_in": "regulation"},
+
+    {"match_id": "SF_1", "stage": "Semifinal", "home": "ARG", "away": "CRO", "neutral_venue": true, "home_score_90": 3, "away_score_90": 0, "decided_in": "regulation"},
+    {"match_id": "SF_2", "stage": "Semifinal", "home": "FRA", "away": "MAR", "neutral_venue": true, "home_score_90": 2, "away_score_90": 0, "decided_in": "regulation"},
+
+    {"match_id": "TP_1", "stage": "Third Place Playoff", "home": "CRO", "away": "MAR", "neutral_venue": true, "home_score_90": 2, "away_score_90": 1, "decided_in": "regulation"},
+
+    {"match_id": "FIN_1", "stage": "Final", "home": "ARG", "away": "FRA", "neutral_venue": true, "home_score_90": 2, "away_score_90": 2, "decided_in": "penalties", "pens_winner": "ARG"}
+  ]
+}
