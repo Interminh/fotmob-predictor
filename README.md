@@ -1,119 +1,122 @@
-# ⚽ fotmob-predictor
+# fotmob-predictor
 
-**World Cup 2026 Monte Carlo simulation engine.**  
-Predicts match outcomes, group standings, and full bracket advancement probabilities using Poisson-based statistical modelling and Elo ratings.
+A Monte Carlo simulation engine for World Cup match outcomes. Give it Elo ratings, attack/defense
+strength, and recent form for two teams, and it runs thousands of Poisson-sampled matches to
+produce win/draw/loss odds, a score distribution, and (for knockout games) extra time and penalty
+resolution. It can also simulate an entire tournament bracket end to end and spit out each team's
+odds of winning it all.
 
----
+Built for the 2026 World Cup, but the engine itself doesn't care which tournament it's pointed at.
 
-## What It Does
+## What it does
 
-Given team profiles (attack/defense coefficients, Elo ratings, recent form), the engine:
+1. Computes each team's expected goals (λ) from attack/defense coefficients, Elo, recent form, and home advantage
+2. Samples thousands of Poisson-distributed matches from those two lambdas
+3. Turns the samples into outcome probabilities and a predicted scoreline
+4. For knockout matches, resolves draws through extra time and then penalties
+5. For a full tournament, runs the group stage and bracket together across 100,000 trials to get each team's odds of reaching every round
 
-1. Computes expected goals (λ) for each team in a matchup
-2. Runs thousands of Poisson-sampled match simulations
-3. Aggregates outcome probabilities and a predicted scoreline
-4. For knockout matches — resolves extra time and penalties
-5. For full tournaments — simulates the entire bracket across 100,000 trials
+## Does it actually work?
 
----
+I hand-picked the parameters below with no historical check, which is a bad habit for anything
+that outputs a probability. So I ran the engine against every one of the 64 real matches from the
+2022 World Cup and scored it properly: Brier score, log loss, and plain accuracy, against two dumb
+baselines.
 
-## Validation
+**It beats guessing.** 57.8% accuracy against a coin-flip baseline's 42.2%, and a clearly better
+Brier score than picking outcomes uniformly at random.
 
-Model parameters were originally hand-picked with no historical check. [BACKTEST.md](BACKTEST.md)
-runs the engine against all 64 real matches of the **2022 World Cup** and scores it with Brier
-score / log loss / accuracy against baselines (`python main.py backtest`).
+**It doesn't beat "the better team probably wins."** Against a baseline that only knows which team
+is rated higher, not by how much, and gives it a flat 50/25/25 split regardless of the gap size,
+the engine ties on accuracy and loses on log loss. In other words, the specific way
+`rating_sensitivity_gamma` scales a rating gap into a goal-rate boost isn't currently adding much
+over just knowing who's favored.
 
-Headline result: the engine clearly beats a blind-guess baseline, but ties (and loses on log loss)
-against a naive "the better-ranked team probably wins" baseline — meaning the current
-`rating_sensitivity_gamma` tuning isn't yet earning its keep over just knowing who's favored. See
-the full writeup for the by-stage breakdown and what's driving the biggest misses (it's draws).
+The most confidently wrong calls were all draws the model underrated (Mexico 0-0 Poland, Cameroon
+3-3 Serbia, Croatia 0-0 Belgium, and so on). A plain Poisson model with no draw-specific term seems
+to systematically underrate cagey, low-scoring matchups.
 
----
+Full writeup, methodology, and the by-stage breakdown: [BACKTEST.md](BACKTEST.md). Run it yourself
+with `python main.py backtest`.
 
-## Architecture
+## What's next
+
+- Re-source real Elo history instead of the FIFA-ranking-points stand-in used in the backtest (eloratings.net renders its table client-side, so a bulk export wasn't available)
+- Reconstruct real attack/defense numbers for the 2022 teams so the backtest checks the whole pipeline, not just the rating half
+- Grid-search `rating_sensitivity_gamma` and `league_avg_goals` against the backtest data instead of assuming the hand-picked values are close to right
+- Add a second tournament (2018) to the backtest so the calibration isn't judged on one 64-match sample
+- Look at adding an explicit draw-probability adjustment, given how consistently the model underrates draws
+
+## Project layout
 
 ```
 fotmob-predictor/
-├── main.py                        Entry point (Typer CLI)
+├── main.py                        entry point (Typer CLI)
 ├── data/
-│   ├── team_profiles.json         48-team profiles (Elo, attack/defense, form)
-│   ├── tournament_schedule.json   Match schedule with group & knockout stages
-│   ├── h2h_data.json              Head-to-head historical records
-│   └── scoring_rules.json         Points system for optimal pick scoring
-│   └── historical/                 Real match results + ratings used for backtesting
+│   ├── team_profiles.json         48-team profiles: Elo, attack/defense, form
+│   ├── tournament_schedule.json   match schedule, group + knockout stages
+│   ├── h2h_data.json              head-to-head history
+│   ├── scoring_rules.json         points system for the optimal-pick calculator
+│   └── historical/                real match results + ratings used for backtesting
 ├── src/
-│   ├── config.py                  Global defaults (λ bounds, simulation counts, etc.)
-│   ├── cli.py                     All CLI commands (Typer + Rich output)
+│   ├── config.py                  global defaults (lambda bounds, simulation counts, etc.)
+│   ├── cli.py                     CLI commands (Typer + Rich output)
 │   ├── backtest/
-│   │   └── runner.py              Scores the engine against real historical tournaments
+│   │   └── runner.py              scores the engine against real historical tournaments
 │   ├── engine/
-│   │   ├── lambda_calculator.py   Computes expected goals from team profiles
-│   │   ├── monte_carlo.py         Poisson simulation, score matrix, outcome probs
-│   │   ├── knockout_resolver.py   Extra time + penalty shootout resolver
-│   │   └── score_optimizer.py     Rounded-scoreline pick + EV-optimal calculator
+│   │   ├── lambda_calculator.py   expected goals from team profiles
+│   │   ├── monte_carlo.py         Poisson simulation, score matrix, outcome probabilities
+│   │   ├── knockout_resolver.py   extra time + penalty shootout resolver
+│   │   └── score_optimizer.py     rounded-scoreline pick + EV-optimal calculator
 │   ├── aggregation/
-│   │   ├── group_standings.py     Group ranking with tiebreakers
-│   │   └── bracket_simulator.py   Full tournament bracket simulation
+│   │   ├── group_standings.py     group ranking with tiebreakers
+│   │   └── bracket_simulator.py   full tournament bracket simulation
 │   ├── data_ingestion/
-│   │   ├── api_football_client.py Live fixtures & stats via API-Football
-│   │   ├── elo_source.py          Live ELO fetch (eloratings.net) + static fallback
-│   │   ├── profile_builder.py     Builds team_profiles.json from API data
-│   │   └── cache.py               Disk-based request cache
+│   │   ├── api_football_client.py live fixtures + stats via API-Football
+│   │   ├── elo_source.py          live Elo fetch (eloratings.net) + static fallback
+│   │   ├── profile_builder.py     builds team_profiles.json from API data
+│   │   └── cache.py               disk-based request cache
 │   ├── models/
 │   │   ├── team.py                Team dataclass
 │   │   └── result.py              SimulationResult dataclass
 │   └── io/
-│       ├── loader.py              Loads JSON data files
-│       └── exporter.py            Exports JSON, CSV, and heatmap PNGs
-└── outputs/                       Generated predictions and charts
+│       ├── loader.py              loads JSON data files
+│       └── exporter.py            exports JSON, CSV, and heatmap PNGs
+└── outputs/                       generated predictions and charts (gitignored)
 ```
 
----
+## How the engine works
 
-## The Engine
-
-### Expected Goals (λ)
-
-For each match, the engine computes attack/defense-adjusted expected goals per team:
+### Expected goals
 
 ```
-λ_home = μ × attack_home × defense_away × elo_modifier_home × h2h_modifier_home × home_advantage
-λ_away = μ × attack_away × defense_home × elo_modifier_away × h2h_modifier_away
+lambda_home = mu * attack_home * defense_away * elo_modifier_home * h2h_modifier_home * home_advantage
+lambda_away = mu * attack_away * defense_home * elo_modifier_away * h2h_modifier_away
 ```
 
-Where `μ = 1.50` (tournament league average — calibrated to the 2026 group stage's observed
-2.99 goals/game), the Elo modifier scales by `±(rating_sensitivity_gamma × 0.5)` based on each
-team's Elo win probability, home advantage is `1.08×` for non-neutral venues, and H2H adjusts
-by up to `±8%`.
+`mu = 1.50` is the tournament's baseline goals per team per match. The Elo modifier scales each
+side by `± (rating_sensitivity_gamma * 0.5)` based on that team's Elo win probability, home
+advantage is a flat `1.08x` for non-neutral venues, and head-to-head history adjusts by up to `±8%`.
 
-### Match Simulation
+### Match simulation
 
-Each match runs **10,000 Poisson samples** by default:
+Each match runs 10,000 Poisson samples by default: goals drawn from `Poisson(lambda_home)` and
+`Poisson(lambda_away)`, giving a full score probability matrix plus win/draw/loss percentages. The
+predicted scoreline is `round(lambda_home), round(lambda_away)` rather than the single most likely
+score cell, since the mode tends to undershoot real goal totals on skewed distributions.
 
-- Goals drawn from `Poisson(λ_home)` and `Poisson(λ_away)`
-- Produces a full score probability matrix (e.g. P(2-1), P(1-0), …)
-- Outputs: win/draw/loss %, and a predicted scoreline (`round(λ_home), round(λ_away)` —
-  tracks the expected-goals mean rather than the single most-probable cell, which floors
-  away both lambdas' fractional parts and undershoots real goal totals)
+### Knockout resolution
 
-### Knockout Resolution
+If a knockout match is level after 90 minutes: extra time is simulated as a third of a normal
+match, and if it's still level, penalties are decided by an Elo-weighted coin flip clamped to
+`[35%, 65%]`.
 
-When a knockout match ends level after 90 minutes:
+### Tournament bracket
 
-1. **Extra time** — simulated as `1/3` of normal match duration
-2. **Penalties** — Elo-weighted probability clamped to `[35%, 65%]`
+Runs the group stage and knockout rounds together across 100,000 trials, seeding completed matches
+with their known result and simulating the rest, to get each team's odds of reaching every stage.
 
-### Tournament Bracket
-
-Runs **100,000 full tournament simulations** end-to-end:
-
-- Groups are played out → top teams advance
-- Bracket seeding resolves to produce R32, R16, QF, SF, Final matchups
-- Outputs each team's advancement probability at every stage
-
----
-
-## CLI Commands
+## CLI commands
 
 ```bash
 python main.py --help
@@ -125,33 +128,31 @@ python main.py --help
 | `predict-group` | Simulate all matches in a group stage |
 | `predict-knockout` | Simulate all matches in a knockout stage |
 | `predict-tournament` | Full tournament bracket simulation |
-| `simulate-bracket` | Simulate bracket from any stage onwards |
+| `simulate-bracket` | Simulate bracket from any stage onward |
 | `backtest` | Score the engine against real 2022 World Cup results |
 | `fetch-data` | Refresh team data from API-Football |
 
-### Examples
-
 ```bash
-# Single match — Argentina vs France, knockout stage
+# single match, knockout stage
 python main.py predict-match ARG FRA --stage knockout --heatmap
 
-# All Group A matches
+# every match in a group
 python main.py predict-group "Group A" --export
 
-# Full tournament (100k trials)
+# full tournament, 100k trials
 python main.py predict-tournament --n-trials 100000 --top 16
 
-# Bracket from Round of 16 onward
+# bracket from Round of 16 onward
 python main.py simulate-bracket --start-stage "Round of 16" --export
 
-# Refresh live data from API-Football
+# refresh live data
 python main.py fetch-data
 
-# Backtest against real 2022 World Cup results
+# check the engine against real history
 python main.py backtest
 ```
 
-### Sample Output — predict-match
+Sample output from `predict-match`:
 
 ```
 Argentina vs France  (lam_home=1.52, lam_away=1.38, N=10,000)
@@ -162,84 +163,69 @@ Knockout: drawn after 90' 26.2% | drawn after 120' 8.1%
 Advances: Argentina 51% | France 49%  (score ref: 90min)
 ```
 
----
-
 ## Configuration
 
-Key parameters live in [src/config.py](src/config.py):
+Parameters live in [src/config.py](src/config.py):
 
 | Parameter | Default | Effect |
 |---|---|---|
-| `league_avg_goals` | `1.50` | Baseline goals per team per match |
-| `rating_sensitivity_gamma` | `0.45` | Elo influence on λ |
-| `h2h_weight` | `0.08` | Head-to-head adjustment strength |
-| `home_advantage_factor` | `1.08` | Multiplier for home team at non-neutral venues |
-| `penalty_skill_factor` | `0.10` | Elo tilt in penalty shootout |
-| `n_simulations` | `10,000` | Samples per match simulation |
-| `n_tournament_trials` | `100,000` | Trials for full bracket simulation |
+| `league_avg_goals` | `1.50` | baseline goals per team per match |
+| `rating_sensitivity_gamma` | `0.45` | how much Elo moves lambda |
+| `h2h_weight` | `0.08` | head-to-head adjustment strength |
+| `home_advantage_factor` | `1.08` | multiplier for the home team at non-neutral venues |
+| `penalty_skill_factor` | `0.10` | Elo tilt in a penalty shootout |
+| `n_simulations` | `10,000` | samples per match |
+| `n_tournament_trials` | `100,000` | trials for a full bracket run |
 
-> **Note:** `team_profiles.json` embeds its own `config` block, which is merged over
-> `DEFAULT_CONFIG` at load time (`{**DEFAULT_CONFIG, **profile_config}` in `cli.py`). If you
-> change a parameter in `src/config.py`, update the matching value in `data/team_profiles.json`
-> too, or it'll be silently overridden.
+`team_profiles.json` carries its own `config` block, which gets merged on top of `DEFAULT_CONFIG`
+at load time. If you change a value in `src/config.py`, update the matching value in
+`data/team_profiles.json` too, or the profile's copy silently wins.
 
----
-
-## Data Sources
+## Data sources
 
 | Source | Data | Update method |
 |---|---|---|
-| **API-Football** (`v3.football.api-sports.io`) | Fixtures, team stats, H2H results | `python main.py fetch-data` |
-| **eloratings.net** | Live Elo ratings (48 WC teams) | Auto-fetched on each run, falls back to static snapshot |
-| **`team_profiles.json`** | Attack/defense coefficients, confederation, FIFA ranking | Built by `fetch-data`, manually editable |
-| **`tournament_schedule.json`** | Full match schedule (group + knockout) | Manually maintained |
+| API-Football (`v3.football.api-sports.io`) | fixtures, team stats, head-to-head | `python main.py fetch-data` |
+| eloratings.net | live Elo ratings for the 48 WC teams | fetched automatically, falls back to a static snapshot |
+| `team_profiles.json` | attack/defense, confederation, FIFA ranking | built by `fetch-data`, editable by hand |
+| `tournament_schedule.json` | full match schedule | maintained by hand |
 
-> **Note:** a free API-Football plan does not have access to the 2026 season's stats endpoint
-> (`teams/statistics`) — `fetch-data` will run without error but silently leave team stats
-> unchanged. Completed-match results in `tournament_schedule.json` currently have to be
-> backfilled by hand (`status: "completed"` + `final_score`) as rounds finish.
-
----
+A free API-Football plan doesn't include the 2026 season's stats endpoint, so `fetch-data` runs
+without error but leaves team stats untouched. Completed-match results in
+`tournament_schedule.json` have to be backfilled by hand as rounds finish.
 
 ## Setup
 
 ```bash
-# 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Set API key (only needed for fetch-data)
+# API key is only needed for fetch-data
 cp .env.example .env
-# Edit .env: API_FOOTBALL_KEY=your_key_here
+# edit .env: API_FOOTBALL_KEY=your_key_here
 
-# 3. Run
 python main.py predict-match ARG FRA
 ```
 
-### Requirements
-
-- Python 3.11+
-- `numpy`, `scipy`, `pandas`
-- `typer`, `rich`
-- `matplotlib` (heatmaps only)
-- `requests`, `python-dotenv`
-
----
+Requires Python 3.11+, `numpy`, `scipy`, `pandas`, `typer`, `rich`, `requests`, `python-dotenv`,
+and `matplotlib` for heatmaps.
 
 ## Outputs
 
-All exports land in `outputs/`:
+Exports land in `outputs/` (gitignored):
 
 | File | Contents |
 |---|---|
-| `predictions.json` | Full SimulationResult objects per match |
-| `tournament_summary.csv` | Flat table: scores, probabilities, optimal pick |
-| `advancement_probabilities.json` | Per-team stage advancement rates |
-| `heatmap_<match_id>.png` | Score probability matrix visualised as a heat map |
-
----
+| `predictions.json` | full simulation results per match |
+| `tournament_summary.csv` | flat table of scores, probabilities, optimal pick |
+| `advancement_probabilities.json` | per-team stage advancement rates |
+| `heatmap_<match_id>.png` | score probability matrix as a heatmap |
+| `backtest_wc2022_report.json` | full per-match backtest output |
 
 ## Teams
 
-48 teams across 6 confederations — all 2026 World Cup participants.  
-Elo ratings sourced from eloratings.net as of **2026-06-28**.  
-Host nations: **USA**, **Mexico**, **Canada**.
+48 teams across 6 confederations, all 2026 World Cup participants. Elo ratings from eloratings.net
+as of 2026-06-28. Host nations: USA, Mexico, Canada.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
