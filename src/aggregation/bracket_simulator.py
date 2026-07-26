@@ -10,7 +10,7 @@ from src.models.match import Match, Stage
 
 
 def _parse_depends_on(ref: str) -> tuple[str, str]:
-    """Parse 'R32_1_winner' → ('R32_1', 'winner')."""
+    """Parse 'R32_1_winner' into ('R32_1', 'winner')."""
     parts = ref.rsplit("_", 1)
     return parts[0], parts[1]  # (match_id, role)
 
@@ -62,7 +62,7 @@ def simulate_from_knockout(
     for _ in range(n_trials):
         match_results: dict[str, dict[str, str]] = {}
 
-        # Seed completed matches — these are fixed every trial
+        # completed matches are fixed, same result every trial
         for mid, (m, _) in all_matches.items():
             if m.status == "completed" and m.final_score is not None:
                 fs = m.final_score
@@ -92,7 +92,7 @@ def simulate_from_knockout(
                     away_code = _resolve_slot(m.depends_on[1], match_results) or away_code
 
                 if home_code not in teams or away_code not in teams:
-                    continue  # unresolvable slot — skip
+                    continue  # slot not resolved yet, skip
 
                 ta = teams[home_code]
                 tb = teams[away_code]
@@ -190,7 +190,7 @@ def simulate_tournament(
     for _ in range(n_trials):
         alive: dict[str, Team] = {}  # teams still in tournament
 
-        # --- Group stage ---
+        # group stage
         group_winners: list[str] = []
         group_runners: list[str] = []
         all_third: list[tuple[int, str]] = []  # (points, code) for 3rd-place teams
@@ -225,7 +225,7 @@ def simulate_tournament(
             counts[code]["group_advance"] += 1
         alive = {code: teams[code] for code in advancing if code in teams}
 
-        # --- Knockout stages ---
+        # knockout stages
         for stage in knockout_stages:
             next_alive: set[str] = set()
             for m in stage.matches:

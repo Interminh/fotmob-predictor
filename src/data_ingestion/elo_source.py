@@ -5,7 +5,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-# Static ELO snapshot (pre-tournament best estimates — update via fetch-data)
+# static ELO snapshot, pre-tournament estimates, refresh with fetch-data
 STATIC_ELO_SNAPSHOT: dict[str, float] = {
     "ARG": 2090, "FRA": 2050, "BRA": 2010, "ENG": 2000, "ESP": 1990,
     "POR": 1960, "GER": 1960, "NED": 1940, "BEL": 1900, "URU": 1840,
@@ -35,9 +35,9 @@ def fetch_elo_ratings() -> dict[str, float]:
                     pass
         if ratings:
             return ratings
-        logger.warning("ELO fetch returned empty data — using static snapshot")
+        logger.warning("ELO fetch returned empty data, using static snapshot")
     except Exception as exc:
-        logger.warning("ELO fetch failed (%s) — using static snapshot", exc)
+        logger.warning("ELO fetch failed (%s), using static snapshot", exc)
     return dict(STATIC_ELO_SNAPSHOT)
 
 

@@ -201,7 +201,7 @@ def predict_knockout(
     seed: Optional[int] = typer.Option(None, help="RNG seed"),
     export: bool = typer.Option(False, help="Export predictions"),
 ):
-    """Predict all matches in a knockout stage (teams must be resolved — no TBD)."""
+    """Predict all matches in a knockout stage (teams must be resolved, no TBD)."""
     teams, h2h, tournament, scoring_rules, config = _load_all()
 
     target_stage = None
@@ -330,7 +330,7 @@ def simulate_bracket(
     # Collect teams that appear in at least one stage
     participating = {code for code, probs in adv.items() if any(probs.values())}
     if not participating:
-        console.print("[yellow]No teams resolved — check tournament_schedule.json.[/yellow]")
+        console.print("[yellow]No teams resolved, check tournament_schedule.json.[/yellow]")
         raise typer.Exit(0)
 
     # Sort by final stage probability descending, then first stage
@@ -376,7 +376,7 @@ def backtest(
     console.print("\n[bold]Backtesting engine against the 2022 World Cup (64 matches)…[/bold]")
     result = run_backtest(n_simulations=n, seed=seed)
 
-    table = Table(title="Model vs. Baselines — 90-minute outcome calibration", box=box.SIMPLE_HEAVY)
+    table = Table(title="Model vs. baselines: 90-minute outcome calibration", box=box.SIMPLE_HEAVY)
     table.add_column("", style="bold")
     table.add_column("Brier score (lower better)", justify="right")
     table.add_column("Log loss (lower better)", justify="right")
@@ -404,7 +404,7 @@ def backtest(
     console.print("\n[bold]Worst calibrated calls (highest log loss):[/bold]")
     for r in result["worst_calls"]:
         console.print(
-            f"  {r['home']} {r['actual_score']} {r['away']} ({r['stage']}) — "
+            f"  {r['home']} {r['actual_score']} {r['away']} ({r['stage']}), "
             f"model gave the actual outcome ({r['actual_outcome']}) only "
             f"{r['model'][r['actual_outcome']]:.0%}"
         )

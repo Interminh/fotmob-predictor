@@ -4,11 +4,9 @@ import math
 def rounded_scoreline(lambda_home: float, lambda_away: float) -> str:
     """Nearest-integer scoreline from the raw expected goals (round-half-up).
 
-    Unlike the joint-probability mode (the single most-likely cell), this
-    tracks the mean of each side's Poisson distribution rather than its
-    mode, which floors away the fractional part of both lambdas. For
-    skewed goal distributions the mode systematically undershoots real
-    goal totals; rounding the lambdas directly doesn't.
+    Rounds each lambda directly instead of taking the single most-likely
+    score cell, since the mode floors the fractional part of both lambdas
+    and tends to undershoot real goal totals on skewed distributions.
     """
     home = math.floor(lambda_home + 0.5)
     away = math.floor(lambda_away + 0.5)
@@ -33,9 +31,8 @@ def points_awarded(p_h: int, p_a: int, a_h: int, a_a: int, scoring_rules: dict) 
         return float(scoring_rules["exact_score_points"])
     gd_pts = float(scoring_rules["correct_goal_difference_points"])
     outcome_pts = float(scoring_rules["correct_outcome_points"])
-    # Only apply the GD check if it awards more than the outcome check.
-    # When GD_pts <= outcome_pts (e.g. GD=0, outcome=2), a same-GD result
-    # should still earn outcome points — skipping the GD trap.
+    # skip the GD check if it wouldn't actually beat the outcome points
+    # (e.g. GD=0, outcome=2) so a same-GD result still scores
     if gd_pts > outcome_pts and (p_h - p_a) == (a_h - a_a):
         return gd_pts
     if _sign(p_h - p_a) == _sign(a_h - a_a):

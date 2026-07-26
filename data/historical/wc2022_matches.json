@@ -1,7 +1,7 @@
 {
   "tournament": "2022 FIFA World Cup",
   "host_nations": ["QAT"],
-  "note": "home/away for group matches is arbitrary (all venues neutral except Qatar's own matches, which are marked neutral_venue=false so the host-advantage multiplier applies). Scores are the 90-minute (regulation) result; knockout matches that needed extra time or penalties also carry decided_in/pens_winner/final_score.",
+  "note": "home/away is arbitrary for group games since venues were neutral, except Qatar's own matches (neutral_venue=false so host advantage kicks in). Scores are the 90-minute result. Knockout matches decided after 90 carry a decided_in field.",
   "matches": [
     {"match_id": "GA_1", "stage": "Group A", "home": "QAT", "away": "ECU", "neutral_venue": false, "home_score_90": 0, "away_score_90": 2, "decided_in": "regulation"},
     {"match_id": "GA_2", "stage": "Group A", "home": "SEN", "away": "NED", "neutral_venue": true, "home_score_90": 0, "away_score_90": 2, "decided_in": "regulation"},

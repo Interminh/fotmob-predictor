@@ -117,7 +117,7 @@ def export_heatmap(
     ax.set_yticklabels(range(cap))
     ax.set_xlabel(f"{away_team} Goals")
     ax.set_ylabel(f"{home_team} Goals")
-    ax.set_title(f"{home_team} vs {away_team} — Score Probability Matrix")
+    ax.set_title(f"{home_team} vs {away_team}: Score Probability Matrix")
 
     for h in range(cap):
         for a in range(cap):

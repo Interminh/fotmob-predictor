@@ -1,6 +1,6 @@
 {
-  "source": "FIFA World Ranking, 6 Oct 2022 release (last update published before the tournament kicked off on 20 Nov 2022)",
-  "note": "fifa_points is used as a drop-in substitute for the eloratings.net Elo rating the live engine normally consumes. eloratings.net's site renders its table client-side via JS and a bulk historical export could not be sourced for this backtest, so FIFA ranking points (also an Elo-style logistic rating, similar scale) are plugged into the same rating_sensitivity_gamma formula instead. See BACKTEST.md for the full methodology note.",
+  "source": "FIFA World Ranking, 6 Oct 2022 (last release before the tournament started)",
+  "note": "fifa_points stands in for the eloratings.net rating the live engine uses. eloratings.net renders its table client-side so it couldn't be scraped for this backtest. See BACKTEST.md for why that's a reasonable swap.",
   "teams": {
     "BRA": {"name": "Brazil", "fifa_points": 1837.56},
     "BEL": {"name": "Belgium", "fifa_points": 1821.92},
