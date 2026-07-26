@@ -364,6 +364,59 @@ def simulate_bracket(
         console.print(f"\nSaved: [blue]{out_path}[/blue]")
 
 
+@app.command("backtest")
+def backtest(
+    n: int = typer.Option(10_000, help="Simulations per match"),
+    seed: Optional[int] = typer.Option(42, help="RNG seed for reproducibility"),
+    export: bool = typer.Option(True, help="Export full per-match report as JSON"),
+):
+    """Backtest the Elo/Poisson engine against real 2022 World Cup results."""
+    from src.backtest.runner import run_backtest
+
+    console.print("\n[bold]Backtesting engine against the 2022 World Cup (64 matches)…[/bold]")
+    result = run_backtest(n_simulations=n, seed=seed)
+
+    table = Table(title="Model vs. Baselines — 90-minute outcome calibration", box=box.SIMPLE_HEAVY)
+    table.add_column("", style="bold")
+    table.add_column("Brier score (lower better)", justify="right")
+    table.add_column("Log loss (lower better)", justify="right")
+    table.add_column("Accuracy", justify="right")
+
+    labels = {
+        "model": "Engine (Elo + Poisson)",
+        "uniform": "Uniform 1/3-1/3-1/3",
+        "favorite_sign_only": "Favorite-sign-only",
+    }
+    for key, label in labels.items():
+        s = result["summary"][key]
+        table.add_row(label, f"{s['brier_score']:.4f}", f"{s['log_loss']:.4f}", f"{s['accuracy']:.1%}")
+    console.print(table)
+
+    stage_table = Table(title="By stage", box=box.SIMPLE_HEAVY)
+    stage_table.add_column("Stage", style="bold")
+    stage_table.add_column("Matches", justify="right")
+    stage_table.add_column("Model accuracy", justify="right")
+    stage_table.add_column("Model Brier", justify="right")
+    for stage, s in result["stage_summary"].items():
+        stage_table.add_row(stage, str(s["n_matches"]), f"{s['model_accuracy']:.1%}", f"{s['model_brier']:.4f}")
+    console.print(stage_table)
+
+    console.print("\n[bold]Worst calibrated calls (highest log loss):[/bold]")
+    for r in result["worst_calls"]:
+        console.print(
+            f"  {r['home']} {r['actual_score']} {r['away']} ({r['stage']}) — "
+            f"model gave the actual outcome ({r['actual_outcome']}) only "
+            f"{r['model'][r['actual_outcome']]:.0%}"
+        )
+
+    if export:
+        out_path = OUTPUTS_DIR / "backtest_wc2022_report.json"
+        OUTPUTS_DIR.mkdir(exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(result, f, indent=2)
+        console.print(f"\nFull report saved: [blue]{out_path}[/blue]")
+
+
 @app.command("fetch-data")
 def fetch_data(
     force_refresh: bool = typer.Option(False, help="Bypass cache and re-fetch everything"),
