@@ -53,9 +53,8 @@ with `python main.py backtest`.
 fotmob-predictor/
 ├── main.py                        entry point (Typer CLI)
 ├── data/
-│   ├── team_profiles.json         48-team profiles: Elo, attack/defense, form
+│   ├── team_profiles.json         48-team profiles: Elo, attack/defense, form, head-to-head
 │   ├── tournament_schedule.json   match schedule, group + knockout stages
-│   ├── h2h_data.json              head-to-head history
 │   ├── scoring_rules.json         points system for the optimal-pick calculator
 │   └── historical/                real match results + ratings used for backtesting
 ├── src/
