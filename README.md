@@ -17,6 +17,19 @@ Given team profiles (attack/defense coefficients, Elo ratings, recent form), the
 
 ---
 
+## Validation
+
+Model parameters were originally hand-picked with no historical check. [BACKTEST.md](BACKTEST.md)
+runs the engine against all 64 real matches of the **2022 World Cup** and scores it with Brier
+score / log loss / accuracy against baselines (`python main.py backtest`).
+
+Headline result: the engine clearly beats a blind-guess baseline, but ties (and loses on log loss)
+against a naive "the better-ranked team probably wins" baseline — meaning the current
+`rating_sensitivity_gamma` tuning isn't yet earning its keep over just knowing who's favored. See
+the full writeup for the by-stage breakdown and what's driving the biggest misses (it's draws).
+
+---
+
 ## Architecture
 
 ```
@@ -27,9 +40,12 @@ fotmob-predictor/
 │   ├── tournament_schedule.json   Match schedule with group & knockout stages
 │   ├── h2h_data.json              Head-to-head historical records
 │   └── scoring_rules.json         Points system for optimal pick scoring
+│   └── historical/                 Real match results + ratings used for backtesting
 ├── src/
 │   ├── config.py                  Global defaults (λ bounds, simulation counts, etc.)
 │   ├── cli.py                     All CLI commands (Typer + Rich output)
+│   ├── backtest/
+│   │   └── runner.py              Scores the engine against real historical tournaments
 │   ├── engine/
 │   │   ├── lambda_calculator.py   Computes expected goals from team profiles
 │   │   ├── monte_carlo.py         Poisson simulation, score matrix, outcome probs
@@ -110,6 +126,7 @@ python main.py --help
 | `predict-knockout` | Simulate all matches in a knockout stage |
 | `predict-tournament` | Full tournament bracket simulation |
 | `simulate-bracket` | Simulate bracket from any stage onwards |
+| `backtest` | Score the engine against real 2022 World Cup results |
 | `fetch-data` | Refresh team data from API-Football |
 
 ### Examples
@@ -129,6 +146,9 @@ python main.py simulate-bracket --start-stage "Round of 16" --export
 
 # Refresh live data from API-Football
 python main.py fetch-data
+
+# Backtest against real 2022 World Cup results
+python main.py backtest
 ```
 
 ### Sample Output — predict-match
