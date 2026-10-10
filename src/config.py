@@ -6,7 +6,7 @@ OUTPUTS_DIR = BASE_DIR / "outputs"
 
 DEFAULT_CONFIG = {
     "league_avg_goals": 1.50,
-    "rating_sensitivity_gamma": 0.45,
+    "rating_sensitivity_gamma": 1.40,
     "h2h_weight": 0.08,
     "h2h_normalization_cap": 3.0,
     "home_advantage_factor": 1.08,
